@@ -1,0 +1,30 @@
+@page
+@model deneme.Pages.TablesModel
+@{
+    ViewData["Title"] = "Tables";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Table Number</th>
+            <th>Capacity</th>
+            <th>Creating Order</th>
+            <th>Reservation</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var table in Model.Tables)
+        {
+        <tr>
+            <td>@table.TableNumber</td>
+            <td>@table.Capacity</td>
+            <td><button>Create Order</button></td>
+            <td><button>Reserved</button></td>
+        </tr>
+        }
+    </tbody>
+</table>
