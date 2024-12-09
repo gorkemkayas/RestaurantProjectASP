@@ -1,0 +1,54 @@
+﻿@page
+@model deneme.Pages.MenuModel
+@{
+    ViewData["Title"] = "Menu Management";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Menus</h2>
+        <hr />
+
+        <!-- New Menu Button -->
+        <div class="text-center mb-3">
+            <a asp-page="/MenuAdd" class="btn btn-success btn-sm">New Menu</a>
+        </div>
+
+        @if (Model.Menus.Count > 0)
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Menu Id</th>
+                        <th>Menu Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var menu in Model.Menus)
+                    {
+                        <tr>
+                            <td>@menu.MenuId</td>
+                            <td>@menu.Name</td>
+                            <td>@menu.Description</td>
+                            <td>
+                                <a asp-page="/MenuEdit" asp-route-id="@menu.MenuId" class="btn btn-dark btn-sm">Edit</a>
+                                <a asp-page="/MenuDelete" asp-route-id="@menu.MenuId" class="btn btn-outline-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center" role="alert">
+                No menus found. Do you want to add a new menu?
+            </div>
+            <a href="/Index" class="btn btn-dark btn-sm">Cancel</a>
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>

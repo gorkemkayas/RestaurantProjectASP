@@ -1,0 +1,58 @@
+﻿@page
+@model deneme.Pages.InventoryModel
+@{
+    ViewData["Title"] = "Inventory Management";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Inventory</h2>
+        <hr />
+
+        @if (Model.Inventories.Count > 0)
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Inventory Id</th>
+                        <th>Ingredient Name</th>
+                        <th>Quantity In Stock</th>
+                        <th>Unit</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var inventory in Model.Inventories)
+                    {
+                        <tr>
+                            <td>@inventory.InventoryId</td>
+                            <td>@inventory.IngredientName</td>
+                            <td>@inventory.QuantityInStock</td>
+                            <td>@inventory.Unit</td>
+                            <td>
+                                <a asp-page="/InventoryEdit" asp-route-id="@inventory.InventoryId" class="btn btn-dark btn-sm">Edit</a>
+                                <a asp-page="/InventoryDelete" asp-route-id="@inventory.InventoryId" class="btn btn-outline-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            <!-- New Inventory Button -->
+                            <a asp-page="/InventoryAdd" class="btn btn-success btn-sm">New Inventory</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center" role="alert">
+                No inventory found. Do you want to add new inventory?
+            </div>
+            <a href="/Index" class="btn btn-dark btn-sm">Cancel</a>
+            <a asp-page="/InventoryAdd" class="btn btn-success btn-sm">New Inventory</a>
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>

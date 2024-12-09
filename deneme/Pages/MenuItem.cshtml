@@ -1,0 +1,56 @@
+﻿@page
+@model deneme.Pages.MenuItemModel
+@{
+    ViewData["Title"] = "Menu Items Management";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Menu Items</h2>
+        <hr />
+
+        <!-- New Menu Item Button -->
+        <div class="text-center mb-3">
+            <a asp-page="/MenuItemAdd" class="btn btn-success btn-sm">New Menu Item</a>
+        </div>
+
+        @if (Model.MenuItems.Count > 0)
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>MenuItem Id</th>
+                        <th>Menu Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var menuItem in Model.MenuItems)
+                    {
+                        <tr>
+                            <td>@menuItem.MenuItemId</td>
+                            <td>@menuItem.Name</td>
+                            <td>@menuItem.Description</td>
+                            <td>@menuItem.Price</td>
+                            <td>
+                                <a asp-page="/MenuItemEdit" asp-route-id="@menuItem.MenuItemId" class="btn btn-dark btn-sm">Edit</a>
+                                <a asp-page="/MenuItemDelete" asp-route-id="@menuItem.MenuItemId" class="btn btn-outline-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center" role="alert">
+                No menu items found. Do you want to add a new item?
+            </div>
+            <a href="/Index" class="btn btn-dark btn-sm">Cancel</a>
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>
