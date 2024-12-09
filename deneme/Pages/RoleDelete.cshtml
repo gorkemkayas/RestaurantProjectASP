@@ -1,0 +1,25 @@
+﻿@page
+@model deneme.Pages.RoleDeleteModel
+@{
+}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Deletion of Role</h2>
+        <hr />
+        <div class="alert alert-danger text-center" role="alert">
+            <p style="margin-bottom:0px">The Role named as '<u>@Model.RoleName</u>' will be deleted. <b>Are you sure?</b></p>
+        </div>
+        <div class="d-flex">
+            <div class="ms-auto">
+            <form method="post">
+                <input type="hidden" asp-for="RoleId" value="@Model.RoleId" />
+            <a href="/roles" class="btn btn-dark">Cancel</a>
+
+            <button type="submit" class="btn btn-outline-danger">Delete</button>
+            </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

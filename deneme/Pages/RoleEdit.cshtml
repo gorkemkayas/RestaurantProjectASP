@@ -1,0 +1,33 @@
+﻿@page
+@model deneme.Pages.RoleEditModel
+@{
+}
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <h2 class="text-center mb-3">Update Role Information</h2>
+        <hr />
+        <form method="post">
+            <div class="form-group mb-3">
+                <input type="hidden" asp-for="RoleId" value="@Model.RoleId" />
+            </div>
+            <div class="form-group-0 mb-2">
+                <div class="card">
+                    <div class="card-header">
+                        <label asp-for="RoleName" class="form-label" style="margin-bottom:0px">New Role Name</label>
+                    </div>
+                    <div class="card-body">
+                        <input asp-for="RoleName" class="form-control" placeholder="Enter the new role name...">
+
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex">
+                <button type="submit" class="btn btn-outline-dark mt-2 ms-auto">Update Role</button>
+
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
