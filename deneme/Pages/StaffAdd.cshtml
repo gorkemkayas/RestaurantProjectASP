@@ -1,0 +1,47 @@
+﻿@page
+@model deneme.Pages.StaffAddModel
+@{
+}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h3 class="text-center">Add New Staff</h3>
+        <hr />
+        <form method="post">
+            <div class="card">
+                <div class="card-header">Add Staff</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Staff Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Enter the staff name...">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Phone" class="form-label">Phone Number</label>
+                        <input asp-for="Phone" class="form-control" placeholder="Enter staff phone number...">
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="RoleId" class="form-label">Select a Role:</label>
+                        <select asp-for="RoleId" asp-items="Model.RoleDropdown.Roles" class="form-control"></select>
+                    </div>
+                    <div class="d-flex">
+                        <div class="ms-auto">
+                            <a href="/Staffs" class="btn btn-dark">Cancel</a>
+                            <button type="submit" class="btn btn-outline-success">Add Staff</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+@section scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+}

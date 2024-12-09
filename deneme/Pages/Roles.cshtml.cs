@@ -8,9 +8,19 @@ namespace deneme.Pages
     public class RolesModel : PageModel
     {
         public List<Role> Roles { get; set; } = new List<Role>();
-        public static readonly string connectionString = "Data Source=KAYAS;Initial Catalog=RestaurantDb;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False";
+        private string? _connectionString;
+        public RolesModel(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetConnectionString("MSSQL");
+        }
         public void OnGet()
         {
+            Roles = GetAllRoles(_connectionString);
+        }
+
+        public static List<Role> GetAllRoles(string connectionString)
+        {
+            List<Role> roles = new List<Role>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -22,7 +32,7 @@ namespace deneme.Pages
                 {
                     while (reader.Read())
                     {
-                        Roles.Add(new Role
+                        roles.Add(new Role
                         {
                             RoleId = reader.GetInt32(0),
                             RoleName = reader.GetString(1)
@@ -30,6 +40,7 @@ namespace deneme.Pages
                     }
                 }
             }
+            return roles;
         }
     }
 }
