@@ -1,0 +1,41 @@
+﻿@page
+@model deneme.Pages.RoleAddModel
+@{
+}
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <h3 class="text-center">Role Adding Page</h3>
+        <hr />
+        <form method="post">
+            <div class="text-danger" asp-validation-summary="All"></div>
+            <div class="form-group-0 mb-2">
+                <div class="card">
+                    <div class="card-header">
+                        <label asp-for="RoleName" class="form-label" style="margin-bottom:0px">New Role Name</label>
+                    </div>
+                    <div class="card-body">
+                        <input asp-for="RoleName" class="form-control" placeholder="Enter the new role name...">
+                        <div class="mt-2">
+                        <span asp-validation-for="RoleName" class="text-danger mt-2"></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex">
+                <button type="submit" class="btn btn-outline-dark mt-2 ms-auto">Add Role</button>
+
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+@section scripts
+{
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+}
