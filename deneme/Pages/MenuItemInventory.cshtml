@@ -1,0 +1,54 @@
+﻿@page
+@model deneme.Pages.MenuItemInventoryModel
+@{
+    ViewData["Title"] = "Menu Item Inventory Management";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Menu Item Inventory</h2>
+        <hr />
+
+        <!-- New Inventory Link Button -->
+        <div class="text-center mb-3">
+            <a asp-page="/MenuItemInventoryAdd" class="btn btn-success btn-sm">New Inventory Link</a>
+        </div>
+
+        @if (Model.MenuItemInventories.Count > 0)
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Menu Item Id</th>
+                        <th>Inventory Id</th>
+                        <th>Required Quantity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.MenuItemInventories)
+                    {
+                        <tr>
+                            <td>@item.MenuItemId</td>
+                            <td>@item.InventoryId</td>
+                            <td>@item.RequiredQuantity</td>
+                            <td>
+                                <a asp-page="/MenuItemInventoryEdit" asp-route-id="@item.MenuItemId" class="btn btn-dark btn-sm">Edit</a>
+                                <a asp-page="/MenuItemInventoryDelete" asp-route-id="@item.MenuItemId" class="btn btn-outline-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center" role="alert">
+                No inventory linked to menu items. Do you want to add a new inventory link?
+            </div>
+            <a href="/Index" class="btn btn-dark btn-sm">Cancel</a>
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>

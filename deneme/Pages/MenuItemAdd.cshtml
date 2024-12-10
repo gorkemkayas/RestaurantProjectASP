@@ -1,0 +1,32 @@
+﻿@page
+@model deneme.Pages.MenuItemAddModel
+@{
+    ViewData["Title"] = "Add Menu Item";
+}
+
+<h2>Add Menu Item</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="MenuId">Menu</label>
+        <select class="form-control" id="MenuId" name="MenuId" required>
+            @foreach (var menu in Model.Menus)
+            {
+                <option value="@menu.MenuId">@menu.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Name">Menu Item Name</label>
+        <input type="text" class="form-control" id="Name" name="Name" required />
+    </div>
+    <div class="form-group">
+        <label for="Price">Price</label>
+        <input type="number" class="form-control" id="Price" name="Price" step="0.01" required />
+    </div>
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <textarea class="form-control" id="Description" name="Description"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Add Menu Item</button>
+</form>
