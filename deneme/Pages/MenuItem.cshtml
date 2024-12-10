@@ -10,37 +10,39 @@
         <h2 class="text-center"><i class="bi bi-alipay me-2 text-danger small"></i>Menu Items</h2>
         <hr />
 
-        <!-- New Menu Item Button -->
-        <div class="text-center mb-3">
-            <a asp-page="/MenuItemAdd" class="btn btn-success btn-sm">New Menu Item</a>
-        </div>
-
         @if (Model.MenuItems.Count > 0)
         {
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>MenuItem Id</th>
-                        <th>Menu Item Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Actions</th>
+                        <th class="text-center">MenuItem Id</th>
+                        <th class="text-center">Menu Item Name</th>
+                        <th class="text-center">Description</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var menuItem in Model.MenuItems)
                     {
                         <tr>
-                            <td>@menuItem.MenuItemId</td>
-                            <td>@menuItem.Name</td>
-                            <td>@menuItem.Description</td>
-                            <td>@menuItem.Price</td>
-                            <td>
+                            <td class="text-center">@menuItem.MenuItemId</td>
+                            <td class="text-center">@menuItem.Name</td>
+                            <td class="text-center">@menuItem.Description</td>
+                            <td class="text-center">@menuItem.Price</td>
+                            <td class="text-center">
                                 <a asp-page="/MenuItemEdit" asp-route-id="@menuItem.MenuItemId" class="btn btn-dark btn-sm">Edit</a>
                                 <a asp-page="/MenuItemDelete" asp-route-id="@menuItem.MenuItemId" class="btn btn-outline-danger btn-sm">Delete</a>
                             </td>
                         </tr>
                     }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a asp-page="/MenuItemAdd" class="btn btn-success btn-sm">New Menu Item</a></td>
+                    </tr>
                 </tbody>
             </table>
         }
