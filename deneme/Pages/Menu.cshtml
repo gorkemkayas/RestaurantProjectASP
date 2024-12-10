@@ -7,13 +7,8 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <h2 class="text-center">Menus</h2>
+        <h2 class="text-center"><i class="bi bi-alipay me-2 text-danger small"></i>Menus</h2>
         <hr />
-
-        <!-- New Menu Button -->
-        <div class="text-center mb-3">
-            <a asp-page="/MenuAdd" class="btn btn-success btn-sm">New Menu</a>
-        </div>
 
         @if (Model.Menus.Count > 0)
         {
@@ -39,6 +34,12 @@
                             </td>
                         </tr>
                     }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a asp-page="/MenuAdd" class="btn btn-success btn-sm">New Menu</a></td>
+                    </tr>
                 </tbody>
             </table>
         }

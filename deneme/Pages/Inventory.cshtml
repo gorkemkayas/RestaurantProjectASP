@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <h2 class="text-center">Inventory</h2>
+        <h2 class="text-center"><i class="bi bi-alipay me-2 text-danger small"></i>Inventory</h2>
         <hr />
 
         @if (Model.Inventories.Count > 0)
@@ -37,8 +37,11 @@
                         </tr>
                     }
                     <tr>
-                        <td colspan="5" class="text-center">
-                            <!-- New Inventory Button -->
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td >
                             <a asp-page="/InventoryAdd" class="btn btn-success btn-sm">New Inventory</a>
                         </td>
                     </tr>
