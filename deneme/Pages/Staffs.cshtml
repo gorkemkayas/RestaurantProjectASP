@@ -2,3 +2,58 @@
 @model deneme.Pages.StaffsModel
 @{
 }
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Staffs</h2>
+        <hr />
+
+        @if (Model.Staffs.Count > 0)
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width:100px" class="text-center">Staff Id</th>
+                        <th style="width:100px" class="text-center">Staff Name</th>
+                        <th style="width:99px" class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var staff in Model.Staffs)
+                    {
+                        <tr>
+                            <td class="text-center">@staff.StaffId</td>
+                            <td class="text-center">@staff.Name</td>
+                            <td class="text-center">
+                                <a asp-page="/StaffEdit" asp-route-id="@staff.StaffId" class="btn btn-dark btn-sm">Edit</a>
+                                <a asp-page="/StaffDelete" asp-route-id="@staff.StaffId" asp-route-name="@staff.Name" class="btn btn-outline-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center"><a asp-page="/StaffAdd" class="btn btn-success btn-sm" style="padding-inline:20px">New Staff</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center" role="alert">
+                No staffs found. Do you want to add new staff?
+            </div>
+            <div class="d-flex">
+                <div class="ms-auto">
+                    <a href="/Index" class="btn btn-dark btn-sm">Cancel</a>
+                    <a href="#" class="btn btn-outline-success btn-sm">New Staff</a>
+                </div>
+            </div>
+
+        }
+
+
+    </div>
+    <div class="col-md-2"></div>
+</div>

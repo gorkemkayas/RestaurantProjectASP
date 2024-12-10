@@ -1,0 +1,44 @@
+﻿@page
+@model deneme.Pages.StaffEditModel
+@{
+}
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <h2 class="text-center mb-3">Update Staff Information</h2>
+        <hr />
+        <form method="post">
+            <div class="form-group mb-3">
+                <input type="hidden" asp-for="StaffId" value="@Model.StaffId" />
+            </div>
+            <div class="form-group-0 mb-2">
+                <div class="card">
+                    <div class="card-header">Staff Informations
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                        <label asp-for="Name" class="form-label" style="margin-bottom:0px">New Staff Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Enter the new staff name...">
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="RoleId" class="form-label">Select a new role:</label>
+                            <select asp-for="RoleId" asp-items="Model.RoleDropdown.Roles" class="form-control"></select>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Phone" class="form-label" style="margin-bottom:0px">New Staff Phone Number</label>
+                            <input asp-for="Phone" class="form-control" placeholder="Enter the new staff phone...">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex">
+                <button type="submit" class="btn btn-outline-dark mt-2 ms-auto">Update Staff</button>
+
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
