@@ -20,20 +20,20 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Menu Item Id</th>
-                        <th>Inventory Id</th>
-                        <th>Required Quantity</th>
-                        <th>Actions</th>
+                        <th class="text-center">Menu Item Id</th>
+                        <th class="text-center">Inventory Id</th>
+                        <th class="text-center">Required Quantity</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.MenuItemInventories)
                     {
                         <tr>
-                            <td>@item.MenuItemId</td>
-                            <td>@item.InventoryId</td>
-                            <td>@item.RequiredQuantity</td>
-                            <td>
+                            <td class="text-center">@item.MenuItemId</td>
+                            <td class="text-center">@item.InventoryId</td>
+                            <td class="text-center">@item.RequiredQuantity</td>
+                            <td class="text-center">
                                 <a asp-page="/MenuItemInventoryEdit" asp-route-id="@item.MenuItemId" class="btn btn-dark btn-sm">Edit</a>
                                 <a asp-page="/MenuItemInventoryDelete" asp-route-id="@item.MenuItemId" class="btn btn-outline-danger btn-sm">Delete</a>
                             </td>

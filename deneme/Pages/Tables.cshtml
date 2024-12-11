@@ -11,8 +11,8 @@
         <tr>
             <th>Table Number</th>
             <th>Capacity</th>
-            <th>Creating Order</th>
-            <th>Reservation</th>
+            <th>Order Operations</th>
+            <th>Payment</th>
             
         </tr>
     </thead>
@@ -22,8 +22,19 @@
         <tr>
             <td>@table.TableNumber</td>
             <td>@table.Capacity</td>
-            <td><button>Create Order</button></td>
-            <td><button>Reserved</button></td>
+            <td>
+                <a asp-page="/OrderAdd" asp-route-TableId="@table.TableId" class="btn btn-primary">Add an Order </a>
+                <a asp-page="/Orders" asp-route-TableId="@table.TableId" class="btn btn-primary">See Orders </a>
+            </td>
+            <td>
+                <a asp-page="/Payment" asp-route-TableId="@table.TableId" class="btn btn-primary">Credit Card </a>
+                <a asp-page="" asp-route-TableId="@table.TableId" class="btn btn-primary">Cash </a>
+            </td>
+
+
+
+
+
         </tr>
         }
     </tbody>

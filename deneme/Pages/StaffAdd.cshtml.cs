@@ -45,7 +45,7 @@ namespace deneme.Pages
         public IActionResult OnPost()
         {
             AddStaffToDatabase(Name, RoleId,Phone);
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Staffs");
         }
 
         public static List<Role> GetAllRoles(string connectionString)
