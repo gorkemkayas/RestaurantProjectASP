@@ -1,0 +1,39 @@
+﻿@page
+@model deneme.Pages.MenuItemEditModel
+@{
+    ViewData["Title"] = "Edit Menu Item";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center"><i class="bi bi-pencil-square me-2"></i>Edit Menu Item</h2>
+        <hr />
+        <form method="post">
+            <input type="hidden" asp-for="MenuItemId" />
+
+            <div class="mb-3">
+                <label for="Name" class="form-label">Menu Item Name</label>
+                <input type="text" class="form-control" id="Name" asp-for="Name" />
+            </div>
+
+            <div class="mb-3">
+                <label for="Price" class="form-label">Price</label>
+                <input type="number" class="form-control" id="Price" asp-for="Price" step="0.01" />
+            </div>
+
+            <div class="mb-3">
+                <label for="Description" class="form-label">Description</label>
+                <textarea class="form-control" id="Description" asp-for="Description"></textarea>
+            </div>
+
+            <div class="d-flex">
+                <div class="ms-auto">
+                    <a href="/MenuItem" class="btn btn-dark">Cancel</a>
+                    <button type="submit" class="btn btn-outline-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
