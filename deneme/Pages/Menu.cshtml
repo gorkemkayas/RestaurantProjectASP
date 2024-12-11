@@ -28,7 +28,7 @@
                             <td class="text-center">@menu.MenuId</td>
                             <td class="text-center">@menu.Name</td>
                             <td class="text-center">@menu.Description</td>
-                            <td>
+                            <td class="text-center">
                                 <a asp-page="/MenuEdit" asp-route-id="@menu.MenuId" class="btn btn-dark btn-sm">Edit</a>
                                 <a asp-page="/MenuDelete" asp-route-id="@menu.MenuId" class="btn btn-outline-danger btn-sm">Delete</a>
                             </td>
@@ -38,7 +38,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><a asp-page="/MenuAdd" class="btn btn-success btn-sm ms-2">New Menu</a></td>
+                        <td class="text-center"><a asp-page="/MenuAdd" class="btn btn-success btn-sm ms-2">New Menu</a></td>
                     </tr>
                 </tbody>
             </table>

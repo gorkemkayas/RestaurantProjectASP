@@ -1,3 +1,4 @@
+﻿using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
@@ -17,6 +18,8 @@ namespace deneme.Pages
 
         [BindProperty]
         public string RoleName { get; set; } = null!;
+
+        
         public void OnGet(int id, string Name)
         {
             RoleId = id;
@@ -25,8 +28,17 @@ namespace deneme.Pages
 
         public IActionResult OnPost(int RoleId) {
 
-            DeleteRoleToDatabase(RoleId);
-            return RedirectToPage("/Roles");
+            try
+            {
+                DeleteRoleToDatabase(RoleId);
+                return RedirectToPage("/Roles");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "We cannot perform the deletion operation because <b>there are entities associated with the role </b> which you want to delete.";
+
+                return RedirectToPage("/Error");
+            }
         }
         private void DeleteRoleToDatabase(int RoleId)
         {
