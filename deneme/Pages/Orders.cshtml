@@ -1,0 +1,43 @@
+@page
+@model deneme.Pages.OrderModel
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h2>Order Details for Table @Model.TableId</h2>
+
+@if (Model.OrderDetails.Any())
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>Menu Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var detail in Model.OrderDetails)
+            {
+        <tr>
+            <td>@detail.Name</td>
+            <td>@detail.Quantity</td>
+            <td>@detail.Price.ToString("C")</td>
+            <td>@(detail.Quantity * detail.Price)</td>
+            <td>
+                <form method="post" asp-page-handler="Delete" asp-route-orderId="@detail.OrderDetailId"
+                      onsubmit="return confirm('Are you sure you want to delete this order?');">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+            }
+    </tbody>
+</table>
+}
+else
+{
+<p>No orders found for this table.</p>
+}
