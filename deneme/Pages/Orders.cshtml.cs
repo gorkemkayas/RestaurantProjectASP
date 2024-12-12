@@ -32,7 +32,7 @@ namespace deneme.Pages
             if (DeleteOrderDetail(orderId))
             {
                 // Baþarýyla silindikten sonra Tables sayfasýna yönlendirme
-                return RedirectToPage("/Tables");
+                return RedirectToPage("/TableState");
             }
 
             ModelState.AddModelError(string.Empty, "Failed to delete the order detail.");
