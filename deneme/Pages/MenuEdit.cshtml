@@ -1,0 +1,25 @@
+﻿@page
+@model deneme.Pages.MenuEditModel
+
+<h2>Edit Menu</h2>
+<hr />
+<form method="post">
+    <input asp-for="MenuId" type="hidden" />
+    <div class="form-group">
+        <label asp-for="RestaurantId"></label>
+        <select asp-for="RestaurantId" class="form-control">
+            <option value="1">Restaurant 1</option>
+            <option value="2">Restaurant 2</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-page="/Menu" class="btn btn-secondary">Cancel</a>
+</form>
