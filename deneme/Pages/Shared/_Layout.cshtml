@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] Restaurant Management System</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/deneme.styles.css" asp-append-version="true" />
@@ -58,6 +58,8 @@
                                 Actions
                             </a>
                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-area="" asp-page="/Index"><i class="bi bi-house text-danger me-2"></i>Home</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-page="/Tablestate"><i class="bi bi-check-all text-danger me-2"></i>Table States</a></li>
                                 <li><a class="dropdown-item" asp-area="" asp-page="/Roles"><i class="bi bi-list-task text-danger me-2"></i>Roles</a></li>
                                 <li><a class="dropdown-item" asp-area="" asp-page="/Staffs"><i class="bi bi-people-fill text-danger me-2"></i>Staffs</a></li>
                                 <li><a class="dropdown-item" asp-area="" asp-page="/Menu"><i class="bi bi-cup-hot-fill text-danger me-2"></i>Menu</a></li>
