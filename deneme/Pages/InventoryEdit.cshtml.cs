@@ -27,6 +27,7 @@ namespace deneme.Pages
 
         public void OnGet(int id)
         {
+            InventoryId = id;
             LoadInventoryData(id);
         }
 

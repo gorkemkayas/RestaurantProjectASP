@@ -9,6 +9,7 @@
         <h2 class="text-center">Edit Inventory</h2>
         <hr />
         <form method="post">
+            <input type="hidden" asp-for="InventoryId" value="@Model.InventoryId" />
             <div class="mb-3">
                 <label asp-for="IngredientName" class="form-label">Ingredient Name</label>
                 <input type="text" asp-for="IngredientName" class="form-control" />
