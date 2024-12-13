@@ -34,8 +34,8 @@
                             <td class="text-center">@item.InventoryId</td>
                             <td class="text-center">@item.RequiredQuantity</td>
                             <td class="text-center">
-                                <a asp-page="/MenuItemInventoryEdit" asp-route-id="@item.MenuItemId" class="btn btn-dark btn-sm">Edit</a>
-                                <a asp-page="/MenuItemInventoryDelete" asp-route-id="@item.MenuItemId" class="btn btn-outline-danger btn-sm">Delete</a>
+                                <a asp-page="/MenuItemInventoryEdit" asp-route-menuItemId="@item.MenuItemId" asp-route-inventoryId="@item.InventoryId" class="btn btn-dark btn-sm">Edit</a>
+                                <a asp-page="/MenuItemInventoryDelete" asp-route-menuItemId="@item.MenuItemId" asp-route-inventoryId="@item.InventoryId" class="btn btn-outline-danger btn-sm">Delete</a>
                             </td>
                         </tr>
                     }

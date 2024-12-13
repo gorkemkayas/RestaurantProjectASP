@@ -11,18 +11,35 @@
         <form method="post">
             <div class="mb-3">
                 <label for="MenuItemId" class="form-label">Menu Item</label>
-                <input type="text" class="form-control" value="@Model.MenuItemName" readonly />
+                <select class="form-control" asp-for="MenuItemId">
+                    <option value="@Model.MenuItemId" selected>@Model.MenuItemName</option>
+                    <!-- You can dynamically load available menu items here -->
+                    @foreach (var item in Model.MenuItems)
+                    {
+                        <option value="@item.MenuItemId">@item.Name</option>
+                    }
+                </select>
             </div>
+
             <div class="mb-3">
                 <label for="InventoryId" class="form-label">Inventory Item</label>
-                <input type="text" class="form-control" value="@Model.InventoryItemName" readonly />
+                <select class="form-control" asp-for="InventoryId">
+                    <option value="@Model.InventoryId" selected>@Model.InventoryItemName</option>
+                    <!-- You can dynamically load available inventory items here -->
+                    @foreach (var item in Model.InventoryItems)
+                    {
+                        <option value="@item.InventoryId">@item.IngredientName</option>
+                    }
+                </select>
             </div>
+
             <div class="mb-3">
                 <label for="RequiredQuantity" class="form-label">Required Quantity</label>
-                <input type="number" class="form-control" id="RequiredQuantity" name="RequiredQuantity" asp-for="RequiredQuantity" />
+                <input type="number" class="form-control" id="RequiredQuantity" asp-for="RequiredQuantity" />
             </div>
+
             <button type="submit" class="btn btn-outline-success">Save Changes</button>
-            <a href="/MenuItem" class="btn btn-dark">Cancel</a>
+            <a href="/MenuItemInventory" class="btn btn-dark">Cancel</a>
         </form>
     </div>
     <div class="col-md-2"></div>
