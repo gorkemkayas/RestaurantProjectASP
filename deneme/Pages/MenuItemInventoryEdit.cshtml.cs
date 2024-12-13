@@ -1,3 +1,4 @@
+using deneme.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
@@ -31,7 +32,7 @@ namespace deneme.Pages
         public string InventoryItemName { get; set; }
 
         public List<MenuItem> MenuItems { get; set; }
-        public List<InventoryItem> InventoryItems { get; set; }
+        public List<Inventory> InventoryItems { get; set; }
 
         public IActionResult OnGet(int menuItemId, int inventoryId)
         {
@@ -118,6 +119,7 @@ namespace deneme.Pages
             return null;
         }
 
+        // Fetch the MenuItem name by MenuItemId
         private string GetMenuItemNameById(int menuItemId)
         {
             string query = "SELECT Name FROM dbo.MENUITEM WHERE MenuItemId = @MenuItemId";
@@ -133,6 +135,7 @@ namespace deneme.Pages
             }
         }
 
+        // Fetch the InventoryItem name by InventoryId
         private string GetInventoryItemNameById(int inventoryId)
         {
             string query = "SELECT IngredientName FROM dbo.INVENTORY WHERE InventoryId = @InventoryId";
@@ -171,9 +174,9 @@ namespace deneme.Pages
             return items;
         }
 
-        private List<InventoryItem> GetAllInventoryItems()
+        private List<Inventory> GetAllInventoryItems()
         {
-            List<InventoryItem> items = new List<InventoryItem>();
+            List<Inventory> items = new List<Inventory>();
             string query = "SELECT InventoryId, IngredientName FROM dbo.INVENTORY";
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -183,7 +186,7 @@ namespace deneme.Pages
                     var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        items.Add(new InventoryItem
+                        items.Add(new Inventory
                         {
                             InventoryId = reader.GetInt32(0),
                             IngredientName = reader.GetString(1)
@@ -193,17 +196,5 @@ namespace deneme.Pages
             }
             return items;
         }
-    }
-
-    public class MenuItem
-    {
-        public int MenuItemId { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class InventoryItem
-    {
-        public int InventoryId { get; set; }
-        public string IngredientName { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿@page
 @model deneme.Pages.MenuItemInventoryEditModel
 @{
+    ViewData["Title"] = "Edit Menu Item Inventory";
 }
 
 <div class="row">
@@ -11,31 +12,30 @@
         <form method="post">
             <div class="mb-3">
                 <label for="MenuItemId" class="form-label">Menu Item</label>
-                <select class="form-control" asp-for="MenuItemId">
-                    <option value="@Model.MenuItemId" selected>@Model.MenuItemName</option>
-                    <!-- You can dynamically load available menu items here -->
-                    @foreach (var item in Model.MenuItems)
+                <select asp-for="MenuItemId" class="form-control">
+                    @foreach (var menuItem in Model.MenuItems)
                     {
-                        <option value="@item.MenuItemId">@item.Name</option>
+                        <option value="@menuItem.MenuItemId" selected="@(menuItem.MenuItemId == Model.MenuItemId ? "selected" : null)">@menuItem.Name</option>
                     }
                 </select>
+                <span asp-validation-for="MenuItemId" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label for="InventoryId" class="form-label">Inventory Item</label>
-                <select class="form-control" asp-for="InventoryId">
-                    <option value="@Model.InventoryId" selected>@Model.InventoryItemName</option>
-                    <!-- You can dynamically load available inventory items here -->
-                    @foreach (var item in Model.InventoryItems)
+                <select asp-for="InventoryId" class="form-control">
+                    @foreach (var inventoryItem in Model.InventoryItems)
                     {
-                        <option value="@item.InventoryId">@item.IngredientName</option>
+                        <option value="@inventoryItem.InventoryId" selected="@(inventoryItem.InventoryId == Model.InventoryId ? "selected" : null)">@inventoryItem.IngredientName</option>
                     }
                 </select>
+                <span asp-validation-for="InventoryId" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label for="RequiredQuantity" class="form-label">Required Quantity</label>
-                <input type="number" class="form-control" id="RequiredQuantity" asp-for="RequiredQuantity" />
+                <input asp-for="RequiredQuantity" type="number" class="form-control" />
+                <span asp-validation-for="RequiredQuantity" class="text-danger"></span>
             </div>
 
             <button type="submit" class="btn btn-outline-success">Save Changes</button>
