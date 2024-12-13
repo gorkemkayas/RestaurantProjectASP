@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 
 namespace deneme.Pages
 {
@@ -29,6 +30,9 @@ namespace deneme.Pages
         public string MenuItemName { get; set; }
         public string InventoryItemName { get; set; }
 
+        public List<MenuItem> MenuItems { get; set; }
+        public List<InventoryItem> InventoryItems { get; set; }
+
         public IActionResult OnGet(int menuItemId, int inventoryId)
         {
             // Fetch the MenuItemInventory by MenuItemId and InventoryId
@@ -47,15 +51,20 @@ namespace deneme.Pages
             MenuItemName = GetMenuItemNameById(MenuItemId);
             InventoryItemName = GetInventoryItemNameById(InventoryId);
 
+            // Fetch lists for dropdown
+            MenuItems = GetAllMenuItems();
+            InventoryItems = GetAllInventoryItems();
+
             return Page();
         }
+
         public IActionResult OnPost()
         {
             try
             {
                 // Update the MenuItemInventory with the new values
                 UpdateMenuItemInventory(MenuItemId, InventoryId, RequiredQuantity);
-                return RedirectToPage("/MenuItems"); // Redirect back to MenuItems page
+                return RedirectToPage("/MenuItemInventory"); // Redirect back to MenuItems page
             }
             catch (Exception)
             {
@@ -64,7 +73,6 @@ namespace deneme.Pages
             }
         }
 
-        // Method to update the MenuItemInventory table
         private void UpdateMenuItemInventory(int menuItemId, int inventoryId, decimal requiredQuantity)
         {
             string query = "UPDATE dbo.MENUITEM_INVENTORY SET RequiredQuantity = @RequiredQuantity WHERE MenuItemId = @MenuItemId AND InventoryId = @InventoryId";
@@ -110,7 +118,6 @@ namespace deneme.Pages
             return null;
         }
 
-        // Fetch the MenuItem name by MenuItemId
         private string GetMenuItemNameById(int menuItemId)
         {
             string query = "SELECT Name FROM dbo.MENUITEM WHERE MenuItemId = @MenuItemId";
@@ -126,7 +133,6 @@ namespace deneme.Pages
             }
         }
 
-        // Fetch the InventoryItem name by InventoryId
         private string GetInventoryItemNameById(int inventoryId)
         {
             string query = "SELECT IngredientName FROM dbo.INVENTORY WHERE InventoryId = @InventoryId";
@@ -141,5 +147,63 @@ namespace deneme.Pages
                 }
             }
         }
+
+        private List<MenuItem> GetAllMenuItems()
+        {
+            List<MenuItem> items = new List<MenuItem>();
+            string query = "SELECT MenuItemId, Name FROM dbo.MENUITEM";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        items.Add(new MenuItem
+                        {
+                            MenuItemId = reader.GetInt32(0),
+                            Name = reader.GetString(1)
+                        });
+                    }
+                }
+            }
+            return items;
+        }
+
+        private List<InventoryItem> GetAllInventoryItems()
+        {
+            List<InventoryItem> items = new List<InventoryItem>();
+            string query = "SELECT InventoryId, IngredientName FROM dbo.INVENTORY";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        items.Add(new InventoryItem
+                        {
+                            InventoryId = reader.GetInt32(0),
+                            IngredientName = reader.GetString(1)
+                        });
+                    }
+                }
+            }
+            return items;
+        }
+    }
+
+    public class MenuItem
+    {
+        public int MenuItemId { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class InventoryItem
+    {
+        public int InventoryId { get; set; }
+        public string IngredientName { get; set; }
     }
 }
