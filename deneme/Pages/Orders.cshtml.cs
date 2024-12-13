@@ -46,12 +46,12 @@ namespace deneme.Pages
             {
                 connection.Open();
 
-                // JOIN sorgusu ile MenuItem Name'i alýyoruz
+                // JOIN sorgusu ile MenuItem Name'i ve OrderId'yi alýyoruz
                 string query = @"
-                    SELECT od.OrderDetailId, od.MenuItemId, od.Quantity, od.Price, od.TableId, mi.Name 
-                    FROM [dbo].[ORDERDETAILS] od
-                    INNER JOIN [dbo].[MENUITEM] mi ON od.MenuItemId = mi.MenuItemId
-                    WHERE od.TableId = @TableId";
+            SELECT od.OrderDetailId, od.OrderId, od.MenuItemId, od.Quantity, od.Price, od.TableId, mi.Name 
+            FROM [dbo].[ORDERDETAILS] od
+            INNER JOIN [dbo].[MENUITEM] mi ON od.MenuItemId = mi.MenuItemId
+            WHERE od.TableId = @TableId";
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -64,11 +64,12 @@ namespace deneme.Pages
                             orderDetails.Add(new OrderDetails
                             {
                                 OrderDetailId = reader.GetInt32(0),
-                                MenuItemId = reader.GetInt32(1),
-                                Quantity = reader.GetInt32(2),
-                                Price = (float)reader.GetDouble(3),
-                                TableId = reader.GetInt32(4),
-                                Name = reader.GetString(5)
+                                OrderId = reader.GetInt32(1),  // OrderId'yi ekliyoruz
+                                MenuItemId = reader.GetInt32(2),
+                                Quantity = reader.GetInt32(3),
+                                Price = (float)reader.GetDouble(4), // Burada Price'ý alýyoruz
+                                TableId = reader.GetInt32(5),
+                                Name = reader.GetString(6)
                             });
                         }
                     }
@@ -76,6 +77,9 @@ namespace deneme.Pages
             }
             return orderDetails;
         }
+
+        
+
 
         private bool DeleteOrderDetail(int orderId)
         {
@@ -85,12 +89,48 @@ namespace deneme.Pages
                 {
                     connection.Open();
 
-                    string query = "DELETE FROM dbo.ORDERDETAILS WHERE OrderDetailId = @OrderId";
-                    using (var command = new SqlCommand(query, connection))
+                    // Transaction kullanarak ORDERDETAILS ve ORDER tablosundaki silme iþlemini güvence altýna alýyoruz.
+                    using (var transaction = connection.BeginTransaction())
                     {
-                        command.Parameters.AddWithValue("@OrderId", orderId);
-                        int rowsAffected = command.ExecuteNonQuery();
-                        return rowsAffected > 0;
+                        try
+                        {
+                            // 1. ORDERDETAILS tablosundaki kaydý sil
+                            string deleteOrderDetailsQuery = "DELETE FROM dbo.ORDERDETAILS WHERE OrderId = @OrderId";
+                            using (var deleteOrderDetailsCommand = new SqlCommand(deleteOrderDetailsQuery, connection, transaction))
+                            {
+                                deleteOrderDetailsCommand.Parameters.AddWithValue("@OrderId", orderId);
+                                deleteOrderDetailsCommand.ExecuteNonQuery();
+                            }
+
+                            // 2. ORDERDETAILS tablosunda, o OrderId'ye baðlý baþka kayýt olup olmadýðýný kontrol et
+                            string checkOrderDetailsQuery = "SELECT COUNT(*) FROM dbo.ORDERDETAILS WHERE OrderId = @OrderId";
+                            using (var checkOrderDetailsCommand = new SqlCommand(checkOrderDetailsQuery, connection, transaction))
+                            {
+                                checkOrderDetailsCommand.Parameters.AddWithValue("@OrderId", orderId);
+                                int count = (int)checkOrderDetailsCommand.ExecuteScalar();
+
+                                // Eðer baþka OrderDetail kaydý yoksa, ORDER kaydýný da sil
+                                if (count == 0)
+                                {
+                                    string deleteOrderQuery = "DELETE FROM dbo.[ORDER] WHERE OrderId = @OrderId";
+                                    using (var deleteOrderCommand = new SqlCommand(deleteOrderQuery, connection, transaction))
+                                    {
+                                        deleteOrderCommand.Parameters.AddWithValue("@OrderId", orderId);
+                                        deleteOrderCommand.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+
+                            // Ýþlemleri baþarýlý bir þekilde tamamla
+                            transaction.Commit();
+                            return true;
+                        }
+                        catch (Exception)
+                        {
+                            // Hata durumunda iþlemi geri al
+                            transaction.Rollback();
+                            throw;
+                        }
                     }
                 }
             }
@@ -100,5 +140,8 @@ namespace deneme.Pages
                 return false;
             }
         }
+
+
+
     }
 }

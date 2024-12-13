@@ -2,42 +2,54 @@
 @model deneme.Pages.OrderModel
 @{
     ViewData["Title"] = "Order Details";
+    var totalSum = Model.OrderDetails.Sum(detail => detail.Quantity * detail.Price); // Toplamý hesaplýyoruz
 }
 
 <h2>Order Details for Table @Model.TableId</h2>
 
 @if (Model.OrderDetails.Any())
 {
-<table class="table">
-    <thead>
-        <tr>
-            <th>Menu Item</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var detail in Model.OrderDetails)
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Menu Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detail in Model.OrderDetails)
             {
-        <tr>
-            <td>@detail.Name</td>
-            <td>@detail.Quantity</td>
-            <td>@detail.Price.ToString("C")</td>
-            <td>@(detail.Quantity * detail.Price)</td>
-            <td>
-                <form method="post" asp-page-handler="Delete" asp-route-orderId="@detail.OrderDetailId"
-                      onsubmit="return confirm('Are you sure you want to delete this order?');">
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                </form>
-            </td>
-        </tr>
+                <tr>
+                    <td>@detail.Name</td>
+                    <td>@detail.Quantity</td>
+                    <td>@detail.Price.ToString("C")</td>
+                    <td>@(detail.Quantity * detail.Price)</td>
+                    <td>
+                        <form method="post" asp-page-handler="Delete" asp-route-orderId="@detail.OrderId"
+                              onsubmit="return confirm('Are you sure you want to delete this order?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
             }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+
+    <div style="text-align: right; font-weight: bold; font-size: 1.2rem; margin-top: 1rem;">
+        Grand Total: @totalSum.ToString("C") <!-- Toplam deðeri gösteriyoruz -->
+    </div>
 }
 else
 {
-<p>No orders found for this table.</p>
+    <p>No orders found for this table.</p>
 }
+
+<div style="text-align: right; margin-top: 1rem;">
+    <form method="post" asp-page-handler="Payment">
+        <input type="hidden" name="grandTotal" value="@totalSum" />
+        <button type="submit" class="btn btn-success btn-lg">Make Payment</button>
+    </form>
+</div>
