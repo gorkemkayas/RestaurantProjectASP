@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <h2 class="text-center">Inventory</h2>
+        <h2 class="text-center"><i class="bi bi-alipay me-2 text-danger small"></i>Inventory</h2>
         <hr />
 
         @if (Model.Inventories.Count > 0)
@@ -15,30 +15,33 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Inventory Id</th>
-                        <th>Ingredient Name</th>
-                        <th>Quantity In Stock</th>
-                        <th>Unit</th>
-                        <th>Actions</th>
+                        <th class="text-center">Inventory Id</th>
+                        <th class="text-center">Ingredient Name</th>
+                        <th class="text-center">Quantity In Stock</th>
+                        <th class="text-center">Unit</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var inventory in Model.Inventories)
                     {
                         <tr>
-                            <td>@inventory.InventoryId</td>
-                            <td>@inventory.IngredientName</td>
-                            <td>@inventory.QuantityInStock</td>
-                            <td>@inventory.Unit</td>
-                            <td>
+                            <td class="text-center">@inventory.InventoryId</td>
+                            <td class="text-center">@inventory.IngredientName</td>
+                            <td class="text-center">@inventory.QuantityInStock</td>
+                            <td class="text-center">@inventory.Unit</td>
+                            <td class="text-center">
                                 <a asp-page="/InventoryEdit" asp-route-id="@inventory.InventoryId" class="btn btn-dark btn-sm">Edit</a>
                                 <a asp-page="/InventoryDelete" asp-route-id="@inventory.InventoryId" class="btn btn-outline-danger btn-sm">Delete</a>
                             </td>
                         </tr>
                     }
                     <tr>
-                        <td colspan="5" class="text-center">
-                            <!-- New Inventory Button -->
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center">
                             <a asp-page="/InventoryAdd" class="btn btn-success btn-sm">New Inventory</a>
                         </td>
                     </tr>
