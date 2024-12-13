@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace deneme.Models
 {
-    public class AddOrder
+    public class Order
     {
         public int? TableId { get; set; } = null!;
 
