@@ -74,6 +74,7 @@ namespace deneme.Pages
             }
         }
 
+        // Method to update the MenuItemInventory table
         private void UpdateMenuItemInventory(int menuItemId, int inventoryId, decimal requiredQuantity)
         {
             string query = "UPDATE dbo.MENUITEM_INVENTORY SET RequiredQuantity = @RequiredQuantity WHERE MenuItemId = @MenuItemId AND InventoryId = @InventoryId";

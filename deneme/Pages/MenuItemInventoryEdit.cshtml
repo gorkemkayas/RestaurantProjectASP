@@ -10,6 +10,7 @@
         <h2 class="text-center">Edit Menu Item Inventory</h2>
         <hr />
         <form method="post">
+            <!-- MenuItem Dropdown -->
             <div class="mb-3">
                 <label for="MenuItemId" class="form-label">Menu Item</label>
                 <select asp-for="MenuItemId" class="form-control">
@@ -21,6 +22,7 @@
                 <span asp-validation-for="MenuItemId" class="text-danger"></span>
             </div>
 
+            <!-- InventoryItem Dropdown -->
             <div class="mb-3">
                 <label for="InventoryId" class="form-label">Inventory Item</label>
                 <select asp-for="InventoryId" class="form-control">
@@ -32,6 +34,7 @@
                 <span asp-validation-for="InventoryId" class="text-danger"></span>
             </div>
 
+            <!-- Required Quantity -->
             <div class="mb-3">
                 <label for="RequiredQuantity" class="form-label">Required Quantity</label>
                 <input asp-for="RequiredQuantity" type="number" class="form-control" />
