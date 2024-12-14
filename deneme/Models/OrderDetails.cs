@@ -19,5 +19,9 @@ namespace deneme.Models
         public int TableId { get; set; }
 
         public string Name { get; set; }
+
+        public int StaffId { get; set; }
+
+        public string StaffName { get; set; }
     }
 }

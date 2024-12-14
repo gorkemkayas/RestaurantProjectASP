@@ -1,0 +1,29 @@
+﻿@page
+@model deneme.Pages.MenuItemInventoryEditModel
+@{
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Edit Menu Item Inventory</h2>
+        <hr />
+        <form method="post">
+            <div class="mb-3">
+                <label for="MenuItemId" class="form-label">Menu Item</label>
+                <input type="text" class="form-control" value="@Model.MenuItemName" readonly />
+            </div>
+            <div class="mb-3">
+                <label for="InventoryId" class="form-label">Inventory Item</label>
+                <input type="text" class="form-control" value="@Model.InventoryItemName" readonly />
+            </div>
+            <div class="mb-3">
+                <label for="RequiredQuantity" class="form-label">Required Quantity</label>
+                <input type="number" class="form-control" id="RequiredQuantity" name="RequiredQuantity" asp-for="RequiredQuantity" />
+            </div>
+            <button type="submit" class="btn btn-outline-success">Save Changes</button>
+            <a href="/MenuItem" class="btn btn-dark">Cancel</a>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>

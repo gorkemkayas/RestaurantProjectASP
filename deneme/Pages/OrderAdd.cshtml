@@ -4,42 +4,68 @@
     ViewData["Title"] = "Add Order";
 }
 
-<h2>Add Order for Table @Model.TableId</h2>
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">
+        <i class="bi bi-alipay me-2 text-danger small"></i>Add Order for Table @Model.TableId
+    </h2>
 
-<form method="post">
-    <div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Menu Item</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var menuItem in Model.MenuItems)
+    <form method="post" class="needs-validation" novalidate>
+        <!-- Staff seçimi için dropdown -->
+        <div class="mb-4">
+            <label for="StaffId" class="form-label">Select Staff:</label>
+            <select id="StaffId" name="StaffId" class="form-select" required>
+                <option value="" disabled selected>Choose a staff...</option>
+                @foreach (var staff in Model.StaffList)
                 {
-                <tr>
-                    <td>@menuItem.Name</td>
-                    <td>@menuItem.Price.ToString("C")</td>
-                    <td>
-                        <input type="number" name="OrderDetails[@Model.MenuItems.IndexOf(menuItem)].Quantity"
-                               min="0"
-                               value="0"
-                               class="form-control" />
-                        <input type="hidden" name="OrderDetails[@Model.MenuItems.IndexOf(menuItem)].MenuItemId" value="@menuItem.MenuItemId" />
-                        <input type="hidden" name="OrderDetails[@Model.MenuItems.IndexOf(menuItem)].Price" value="@menuItem.Price" />
-                    </td>
-                </tr>
+                <option value="@staff.StaffId">@staff.Name</option>
                 }
-            </tbody>
-        </table>
-    </div>
+            </select>
+        </div>
 
-  
+        <!-- Menü elemanlarý tablosu -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Menu Item</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.MenuItems.Count; i++)
+                    {
+                        var menuItem = Model.MenuItems[i];
+                    <tr>
+                        <td>@menuItem.Name</td>
+                        <td>@menuItem.Price.ToString("C")</td>
+                        <td>
+                            <div class="input-group">
+                                <input type="number"
+                                       name="OrderDetails[@i].Quantity"
+                                       min="0"
+                                       value="0"
+                                       class="form-control"
+                                       placeholder="0" />
+                                <input type="hidden"
+                                       name="OrderDetails[@i].MenuItemId"
+                                       value="@menuItem.MenuItemId" />
+                                <input type="hidden"
+                                       name="OrderDetails[@i].Price"
+                                       value="@menuItem.Price" />
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Save Order</button>
-        <a asp-page="/Tables" class="btn btn-secondary">Cancel</a>
-    </div>
-</form>
+        <!-- Form butonlarý -->
+        <div class="d-flex justify-content-end gap-3 mt-4">
+            <button type="submit" class="btn btn-primary px-4">Save Order</button>
+            <a asp-page="/Orders" asp-route-tableId="@Model.TableId" class="btn btn-success px-4">See Orders</a>
+            <a asp-page="/TableState" class="btn btn-secondary px-4">Cancel</a>
+        </div>
+    </form>
+</div>
