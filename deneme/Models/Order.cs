@@ -24,5 +24,7 @@ namespace deneme.Models
 
         [StringLength(50)]
         public string OrderStatus { get; set; }
+
+        public int StaffId { get; set; }
     }
 }
