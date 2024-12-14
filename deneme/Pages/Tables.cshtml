@@ -1,0 +1,41 @@
+@page
+@model deneme.Pages.TablesModel
+@{
+    ViewData["Title"] = "Tables";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Table Number</th>
+            <th>Capacity</th>
+            <th>Order Operations</th>
+            <th>Payment</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var table in Model.Tables)
+        {
+        <tr>
+            <td>@table.TableNumber</td>
+            <td>@table.Capacity</td>
+            <td>
+                <a asp-page="/OrderAdd" asp-route-TableId="@table.TableId" class="btn btn-primary">Add an Order </a>
+                <a asp-page="/Orders" asp-route-TableId="@table.TableId" class="btn btn-primary">See Orders </a>
+            </td>
+            <td>
+                <a asp-page="/Payment" asp-route-TableId="@table.TableId" class="btn btn-primary">Credit Card </a>
+                <a asp-page="" asp-route-TableId="@table.TableId" class="btn btn-primary">Cash </a>
+            </td>
+
+
+
+
+
+        </tr>
+        }
+    </tbody>
+</table>

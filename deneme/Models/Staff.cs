@@ -14,5 +14,9 @@ namespace deneme.Models
 
         [Required]
         public string Phone { get; set; } = null!;
+
+        public string Email { get; set; }
+
+        public string Password { get; set; }
     }
 }
