@@ -46,12 +46,13 @@ namespace deneme.Pages
             {
                 connection.Open();
 
-                // JOIN sorgusu ile MenuItem Name'i ve OrderId'yi alýyoruz
+                // Updated query to exclude orders with status "Completed"
                 string query = @"
-            SELECT od.OrderDetailId, od.OrderId, od.MenuItemId, od.Quantity, od.Price, od.TableId, mi.Name 
+            SELECT od.OrderDetailId, od.OrderId, od.MenuItemId, od.Quantity, od.Price, od.TableId, mi.Name
             FROM [dbo].[ORDERDETAILS] od
             INNER JOIN [dbo].[MENUITEM] mi ON od.MenuItemId = mi.MenuItemId
-            WHERE od.TableId = @TableId";
+            INNER JOIN [dbo].[ORDER] o ON od.OrderId = o.OrderId
+            WHERE od.TableId = @TableId AND o.OrderStatus <> 'Completed'";  // Add condition for OrderStatus
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -64,10 +65,10 @@ namespace deneme.Pages
                             orderDetails.Add(new OrderDetails
                             {
                                 OrderDetailId = reader.GetInt32(0),
-                                OrderId = reader.GetInt32(1),  // OrderId'yi ekliyoruz
+                                OrderId = reader.GetInt32(1),
                                 MenuItemId = reader.GetInt32(2),
                                 Quantity = reader.GetInt32(3),
-                                Price = (float)reader.GetDouble(4), // Burada Price'ý alýyoruz
+                                Price = (float)reader.GetDouble(4),
                                 TableId = reader.GetInt32(5),
                                 Name = reader.GetString(6)
                             });
@@ -78,7 +79,123 @@ namespace deneme.Pages
             return orderDetails;
         }
 
-        
+
+
+
+        private void UpdateRevenue(float grandTotal, SqlConnection connection)
+        {
+            try
+            {
+                // Revenue tablosunda toplam geliri güncelle
+                string updateRevenueQuery = @"
+        UPDATE dbo.REVENUE
+        SET TotalRevenue = TotalRevenue + @GrandTotal
+        WHERE StartDate <= @CurrentDate AND EndDate >= @CurrentDate";
+
+                using var updateCommand = new SqlCommand(updateRevenueQuery, connection);
+                updateCommand.Parameters.AddWithValue("@GrandTotal", grandTotal);
+                updateCommand.Parameters.AddWithValue("@CurrentDate", DateTime.Now);
+
+                int rowsAffected = updateCommand.ExecuteNonQuery();
+
+                // Eðer mevcut bir gelir kaydý yoksa yeni bir kayýt ekle
+                if (rowsAffected == 0)
+                {
+                    string insertRevenueQuery = @"
+            INSERT INTO dbo.REVENUE (StartDate, EndDate, TotalRevenue, TimePeriodType)
+            VALUES (@StartDate, @EndDate, @GrandTotal, @TimePeriodType)";
+
+                    using var insertCommand = new SqlCommand(insertRevenueQuery, connection);
+                    insertCommand.Parameters.AddWithValue("@StartDate", DateTime.Now.Date);
+                    insertCommand.Parameters.AddWithValue("@EndDate", DateTime.Now.Date.AddDays(1).AddTicks(-1)); // Gün sonu
+                    insertCommand.Parameters.AddWithValue("@GrandTotal", grandTotal);
+                    insertCommand.Parameters.AddWithValue("@TimePeriodType", "Daily"); // Örneðin günlük bazda
+
+                    insertCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error occurred while updating revenue: {ex.Message}");
+            }
+        }
+
+        public IActionResult OnPostPayment(string paymentMethod)
+        {
+            try
+            {
+                using var connection = new SqlConnection(_connectionString);
+                connection.Open();
+
+                // Tabloya ait sadece "Pending" durumundaki sipariþleri al
+                string query = @"
+        SELECT o.OrderId, SUM(od.Quantity * od.Price) AS TotalAmount
+        FROM dbo.ORDERDETAILS od
+        INNER JOIN dbo.[ORDER] o ON od.OrderId = o.OrderId
+        WHERE od.TableId = @TableId AND o.OrderStatus = 'Pending'
+        GROUP BY o.OrderId";
+
+                var orders = new List<(int OrderId, float TotalAmount)>();
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@TableId", TableId);
+                    using var reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        orders.Add((reader.GetInt32(0), (float)reader.GetDouble(1)));
+                    }
+                }
+
+                // Toplam tutarý hesapla
+                var grandTotal = orders.Sum(order => order.TotalAmount);
+
+                // Payment kaydý ekle
+                string paymentQuery = @"
+        INSERT INTO dbo.PAYMENT (OrderId, PaymentDate, Amount, PaymentMethod)
+        VALUES (@OrderId, @PaymentDate, @Amount, @PaymentMethod)";
+
+                foreach (var order in orders)
+                {
+                    using var paymentCommand = new SqlCommand(paymentQuery, connection);
+                    paymentCommand.Parameters.AddWithValue("@OrderId", order.OrderId);
+                    paymentCommand.Parameters.AddWithValue("@PaymentDate", DateTime.Now);
+                    paymentCommand.Parameters.AddWithValue("@Amount", order.TotalAmount);
+                    paymentCommand.Parameters.AddWithValue("@PaymentMethod", paymentMethod);
+
+                    paymentCommand.ExecuteNonQuery();
+                }
+
+                // Sipariþlerin durumunu "Completed" olarak güncelle
+                string updateOrderStatusQuery = "UPDATE dbo.[ORDER] SET OrderStatus = 'Completed' WHERE OrderId = @OrderId";
+
+                foreach (var order in orders)
+                {
+                    using var updateCommand = new SqlCommand(updateOrderStatusQuery, connection);
+                    updateCommand.Parameters.AddWithValue("@OrderId", order.OrderId);
+                    updateCommand.ExecuteNonQuery();
+                }
+
+                // Revenue tablosunu güncelle
+                UpdateRevenue(grandTotal, connection);
+
+                TempData["SuccessMessage"] = $"Payment of {grandTotal:C} for Table {TableId} using {paymentMethod} has been successfully processed.";
+                return RedirectToPage("/TableState");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"Error occurred while processing the payment: {ex.Message}");
+                return Page();
+            }
+        }
+
+
+
+
+
+
+
 
 
         private bool DeleteOrderDetail(int orderId)
