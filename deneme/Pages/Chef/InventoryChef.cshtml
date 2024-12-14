@@ -1,0 +1,62 @@
+﻿@page
+@model deneme.Pages.Chef.InventoryChefModel
+@{
+    ViewData["Title"] = "Inventory Management";
+    Layout = "_LayoutChef";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center"><i class="bi bi-alipay me-2 text-danger small"></i>Inventory</h2>
+        <hr />
+
+        @if (Model.Inventories.Count > 0)
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">Inventory Id</th>
+                        <th class="text-center">Ingredient Name</th>
+                        <th class="text-center">Quantity In Stock</th>
+                        <th class="text-center">Unit</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var inventory in Model.Inventories)
+                    {
+                        <tr>
+                            <td class="text-center">@inventory.InventoryId</td>
+                            <td class="text-center">@inventory.IngredientName</td>
+                            <td class="text-center">@inventory.QuantityInStock</td>
+                            <td class="text-center">@inventory.Unit</td>
+                            <td class="text-center">
+                                <a asp-page="/Chef/InventoryEditChef" asp-route-id="@inventory.InventoryId" class="btn btn-dark btn-sm">Edit</a>
+                                <a asp-page="/Chef/InventoryDeleteChef" asp-route-id="@inventory.InventoryId" class="btn btn-outline-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center">
+                            <a asp-page="/Chef/InventoryAddChef" class="btn btn-success btn-sm">New Inventory</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center" role="alert">
+                No inventory found. Do you want to add new inventory?
+            </div>
+            <a href="/Index" class="btn btn-dark btn-sm">Cancel</a>
+            <a asp-page="/Chef/InventoryAddChef" class="btn btn-success btn-sm">New Inventory</a>
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>

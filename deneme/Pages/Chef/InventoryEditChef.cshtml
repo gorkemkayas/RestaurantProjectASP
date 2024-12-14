@@ -1,0 +1,38 @@
+﻿@page
+@model deneme.Pages.Chef.InventoryEditChefModel
+@{
+    Layout = "_LayoutChef";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Edit Inventory</h2>
+        <hr />
+        <form method="post">
+            <input type="hidden" asp-for="InventoryId" value="@Model.InventoryId" />
+            <div class="mb-3">
+                <label asp-for="IngredientName" class="form-label">Ingredient Name</label>
+                <input type="text" asp-for="IngredientName" class="form-control" />
+                <span asp-validation-for="IngredientName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="QuantityInStock" class="form-label">Quantity In Stock</label>
+                <input type="number" asp-for="QuantityInStock" class="form-control" />
+                <span asp-validation-for="QuantityInStock" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Unit" class="form-label">Unit</label>
+                <input type="text" asp-for="Unit" class="form-control" />
+                <span asp-validation-for="Unit" class="text-danger"></span>
+            </div>
+            <div class="d-flex">
+                <div class="ms-auto">
+                    <a href="/Chef/InventoryChef" class="btn btn-dark">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>

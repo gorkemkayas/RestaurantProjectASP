@@ -1,0 +1,24 @@
+﻿@page
+@model deneme.Pages.Chef.MenuAddChefModel
+@{
+    ViewData["Title"] = "Add Menu";
+    Layout = "_LayoutChef";
+}
+<h2>Add Menu</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="Name">Menu Name</label>
+        <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter menu name..." required />
+    </div>
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <textarea class="form-control" id="Description" name="Description" placeholder="Enter description (optional)..."></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Add Menu</button>
+</form>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

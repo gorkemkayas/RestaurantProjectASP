@@ -71,3 +71,8 @@ input:focus {
     color: white;
     border-radius: 10px;
 }
+
+.custom-input:focus {
+    border-color: red !important;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+}
