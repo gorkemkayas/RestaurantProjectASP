@@ -1,0 +1,55 @@
+﻿@page
+@model deneme.Pages.Chef.MenuItemInventoryChefModel
+@{
+    ViewData["Title"] = "Menu Item Inventory Management";
+    Layout = "_LayoutChef";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Menu Item Inventory</h2>
+        <hr />
+
+        <!-- New Inventory Link Button -->
+        <div class="text-center mb-3">
+            <a asp-page="/Chef/MenuItemInventoryAddChef" class="btn btn-success btn-sm">New Inventory Link</a>
+        </div>
+
+        @if (Model.MenuItemInventories.Count > 0)
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">Menu Item Id</th>
+                        <th class="text-center">Inventory Id</th>
+                        <th class="text-center">Required Quantity</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.MenuItemInventories)
+                    {
+                        <tr>
+                            <td class="text-center">@item.MenuItemId</td>
+                            <td class="text-center">@item.InventoryId</td>
+                            <td class="text-center">@item.RequiredQuantity</td>
+                            <td class="text-center">
+                                <a asp-page="/Chef/MenuItemInventoryEditChef" asp-route-menuItemId="@item.MenuItemId" asp-route-inventoryId="@item.InventoryId" class="btn btn-dark btn-sm">Edit</a>
+                                <a asp-page="/Chef/MenuItemInventoryDeleteChef" asp-route-menuItemId="@item.MenuItemId" asp-route-inventoryId="@item.InventoryId" class="btn btn-outline-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center" role="alert">
+                No inventory linked to menu items. Do you want to add a new inventory link?
+            </div>
+            <a href="/Chef/IndexChef" class="btn btn-dark btn-sm">Cancel</a>
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>

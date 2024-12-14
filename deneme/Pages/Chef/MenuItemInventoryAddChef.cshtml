@@ -1,0 +1,34 @@
+﻿@page
+@model deneme.Pages.Chef.MenuItemInventoryAddChefModel
+@{
+    ViewData["Title"] = "Add Inventory Link";
+    Layout = "_LayoutChef";
+}
+
+<h2>Add Inventory Link</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="MenuItemId">Menu Item</label>
+        <select class="form-control" id="MenuItemId" name="MenuItemId" required>
+            @foreach (var menuItem in Model.MenuItems)
+            {
+                <option value="@menuItem.MenuItemId">@menuItem.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="InventoryId">Inventory</label>
+        <select class="form-control" id="InventoryId" name="InventoryId" required>
+            @foreach (var inventory in Model.Inventories)
+            {
+                <option value="@inventory.InventoryId">@inventory.IngredientName</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="RequiredQuantity">Required Quantity</label>
+        <input type="number" class="form-control" id="RequiredQuantity" name="RequiredQuantity" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Inventory Link</button>
+</form>

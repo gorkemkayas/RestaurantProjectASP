@@ -1,0 +1,27 @@
+﻿@page
+@model deneme.Pages.Chef.MenuItemInventoryDeleteChefModel
+@{
+    Layout = "_LayoutChef";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Delete MenuItem Inventory</h2>
+        <hr />
+        <div class="alert alert-danger text-center" role="alert">
+            <p style="margin-bottom:0px">The inventory item '<u>@Model.InventoryItemName</u>' will be removed from the menu item '<u>@Model.MenuItemName</u>'. Are you sure?</p>
+        </div>
+        <div class="d-flex">
+            <div class="ms-auto">
+                <form method="post">
+                    <input type="hidden" asp-for="MenuItemId" value="@Model.MenuItemId" />
+                    <input type="hidden" asp-for="InventoryId" value="@Model.InventoryId" />
+                    <a href="/Chef/MenuItemInventoryChef" class="btn btn-dark">Cancel</a>
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

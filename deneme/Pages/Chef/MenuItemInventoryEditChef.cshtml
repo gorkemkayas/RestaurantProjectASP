@@ -1,0 +1,50 @@
+﻿@page
+@model deneme.Pages.MenuItemInventoryEditModel
+@{
+    ViewData["Title"] = "Edit Menu Item Inventory";
+    Layout = "_LayoutChef";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Edit Menu Item Inventory</h2>
+        <hr />
+        <form method="post">
+            <!-- MenuItem Dropdown -->
+            <div class="mb-3">
+                <label for="MenuItemId" class="form-label">Menu Item</label>
+                <select asp-for="MenuItemId" class="form-control">
+                    @foreach (var menuItem in Model.MenuItems)
+                    {
+                        <option value="@menuItem.MenuItemId" selected="@(menuItem.MenuItemId == Model.MenuItemId ? "selected" : null)">@menuItem.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="MenuItemId" class="text-danger"></span>
+            </div>
+
+            <!-- InventoryItem Dropdown -->
+            <div class="mb-3">
+                <label for="InventoryId" class="form-label">Inventory Item</label>
+                <select asp-for="InventoryId" class="form-control">
+                    @foreach (var inventoryItem in Model.InventoryItems)
+                    {
+                        <option value="@inventoryItem.InventoryId" selected="@(inventoryItem.InventoryId == Model.InventoryId ? "selected" : null)">@inventoryItem.IngredientName</option>
+                    }
+                </select>
+                <span asp-validation-for="InventoryId" class="text-danger"></span>
+            </div>
+
+            <!-- Required Quantity -->
+            <div class="mb-3">
+                <label for="RequiredQuantity" class="form-label">Required Quantity</label>
+                <input asp-for="RequiredQuantity" type="number" class="form-control" />
+                <span asp-validation-for="RequiredQuantity" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-outline-success">Save Changes</button>
+            <a href="/Chef/MenuItemInventoryChef" class="btn btn-dark">Cancel</a>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
