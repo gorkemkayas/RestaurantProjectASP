@@ -1,0 +1,47 @@
+@page "{tableId:int}"
+@model deneme.Pages.Waiter.OrderAddWaiterModel
+@{
+    ViewData["Title"] = "Add Order";
+    Layout = "_LayoutWaiter";
+}
+
+<h2>Add Order for Table @Model.TableId</h2>
+
+<form method="post">
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Menu Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var menuItem in Model.MenuItems)
+                {
+                <tr>
+                    <td>@menuItem.Name</td>
+                    <td>@menuItem.Price.ToString("C")</td>
+                    <td>
+                        <input type="number" name="OrderDetails[@Model.MenuItems.IndexOf(menuItem)].Quantity"
+                               min="0"
+                               value="0"
+                               class="form-control" />
+                        <input type="hidden" name="OrderDetails[@Model.MenuItems.IndexOf(menuItem)].MenuItemId" value="@menuItem.MenuItemId" />
+                        <input type="hidden" name="OrderDetails[@Model.MenuItems.IndexOf(menuItem)].Price" value="@menuItem.Price" />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+  
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Save Order</button>
+    <a asp-page="/Waiter/OrdersWaiter" asp-route-tableId="@Model.TableId" class="btn btn-success">See Orders</a>
+    <a asp-page="/Waiter/TableStateWaiter" class="btn btn-secondary">Cancel</a>
+</div>
+</form>

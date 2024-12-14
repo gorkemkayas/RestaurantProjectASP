@@ -17,7 +17,7 @@ namespace deneme.Pages
         public int menuId { get; set; }
 
         [BindProperty]
-        public string menuName { get; set; }
+        public string menuName { get; set; } = null!;
 
         public void OnGet(int id, string name)
         {
