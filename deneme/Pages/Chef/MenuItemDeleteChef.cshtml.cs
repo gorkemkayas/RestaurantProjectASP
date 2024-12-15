@@ -34,6 +34,7 @@ namespace deneme.Pages.Chef
             }
             catch (Exception)
             {
+                ViewData["Conflict"] = "<p> The Menu Item '<u>@Model.menuItemName</u>' is used in a Menu. For deleting an item, <b>you should remove related Menu.</b></p>";
                 ModelState.AddModelError(string.Empty, "DeleteMenuItemFromDatabase method error...");
                 return Page();
             }

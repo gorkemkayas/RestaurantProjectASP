@@ -53,7 +53,7 @@ namespace deneme.Pages.Chef
             try
             {
                 UpdateMenuInDatabase();
-                return RedirectToPage("/Menu");
+                return RedirectToPage("/Chef/MenuChef");
             }
             catch (Exception ex)
             {
