@@ -34,6 +34,7 @@ namespace deneme.Pages.Chef
             }
             catch (Exception)
             {
+                ViewData["Conflict"] = $"<p> The Menu is used in somewhere. For deleting a Menu, <b>you should remove related entity.</b></p>";
                 ModelState.AddModelError(string.Empty, "DeleteMenuFromDatabase method error...");
                 return Page();
             }

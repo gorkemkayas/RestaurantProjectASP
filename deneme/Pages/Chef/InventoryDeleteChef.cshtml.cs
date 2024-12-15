@@ -34,6 +34,7 @@ namespace deneme.Pages.Chef
             }
             catch (Exception)
             {
+                ViewData["Conflict"] = $"<p> The Inventory is used in somewhere. For deleting a Menu, <b>you should remove related entity.</b></p>";
                 ModelState.AddModelError(string.Empty, "DeleteInventoryFromDatabase method error...");
                 return Page();
             }

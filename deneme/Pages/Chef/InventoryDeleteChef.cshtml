@@ -9,6 +9,21 @@
     <div class="col-md-8">
         <h2 class="text-center"><i class="bi bi-trash me-2 text-danger"></i>Delete Inventory</h2>
         <hr />
+        @if (ViewData["Conflict"] != null)
+        {
+            <div class="alert alert-danger text-center" role="alert">
+                @Html.Raw(@ViewData["Conflict"])
+            </div>
+            <div class="d-flex">
+
+                <div class="ms-auto">
+                    <a href="/Chef/InventoryChef" class="btn btn-dark">Cancel</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            
         <div class="alert alert-danger text-center" role="alert">
             <p style="margin-bottom:0px">The Inventory item which id is '<u>@Model.inventoryId</u>' will be deleted. <b>Are you sure?</b></p>
         </div>
@@ -21,6 +36,7 @@
                 </form>
             </div>
         </div>
+        }
     </div>
     <div class="col-md-2"></div>
 </div>
