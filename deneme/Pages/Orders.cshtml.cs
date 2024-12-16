@@ -181,6 +181,7 @@ namespace deneme.Pages
                 UpdateRevenue(grandTotal, connection);
 
                 TempData["SuccessMessage"] = $"Payment of {grandTotal:C} for Table {TableId} using {paymentMethod} has been successfully processed.";
+                ChangeTableStatus(TableId,"E");
                 return RedirectToPage("/TableState");
             }
             catch (Exception ex)
@@ -194,7 +195,23 @@ namespace deneme.Pages
 
 
 
+        public void ChangeTableStatus(int tableId, string status)
+        {
+            string query = "UPDATE dbo.TABLES SET Status = @Status WHERE TableId = @TableId";
 
+            using (var connection = new SqlConnection(_connectionString))
+            {
+
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@TableId", tableId);
+                    command.Parameters.AddWithValue("@Status", status);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
 
 
 

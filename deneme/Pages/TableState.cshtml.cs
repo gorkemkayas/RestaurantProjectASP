@@ -1,3 +1,4 @@
+using deneme.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ namespace deneme.Pages
         private readonly string? _connectionString;
 
         // List to hold table order status
-        public List<TableOrderStatus> TableStatuses { get; set; } = new List<TableOrderStatus>();
 
         public TableStateModel(IConfiguration configuration)
         {
@@ -22,10 +22,40 @@ namespace deneme.Pages
             }
         }
 
+        [BindProperty]
+        public Dictionary<int, string> TableStatuses { get; set; } = new Dictionary<int, string>();
+
+        [Obsolete]
+        public void GetStatusTable(int tableId)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                string query = $"SELECT Status FROM dbo.TABLES WHERE TableId = @TableId";
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@TableId", tableId);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        string status = reader.GetString(0);
+                        TableStatuses[tableId] = status;
+                    }
+                }
+            }
+        }
+
         public void OnGet()
         {
+            for (int i = 1; i < 41; i++)
+            {
+                GetStatusTable(i);
+            }
             // Fetch table order statuses
-            TableStatuses = GetOrderStatus(_connectionString);
+            //TableStatuses = GetOrderStatus(_connectionString);
+            //GetStatusTable(1);
         }
 
         // Method to fetch OrderStatus information from the Orders table
