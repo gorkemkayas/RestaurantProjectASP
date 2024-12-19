@@ -4,46 +4,57 @@
     ViewData["Title"] = "Daily Summaries";
 }
 
-<!-- Günlük Gelir -->
-<div class="container" style="margin-top:50px">
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <h4 class="text-center mb-3"><i class="bi bi-alipay me-2 fs-3 text-danger small"></i>Daily Summaries</h4>
-            <hr class="mb-5" />
+<div class="container mt-5">
+    <!-- Başlık -->
+    <div class="text-center mb-4">
+        <h2 class="fw-bold text-primary">
+            <i class="bi bi-bar-chart-fill me-2"></i> Daily Summaries
+        </h2>
+        <p class="text-muted">Track your revenue trends over the past week</p>
+    </div>
 
-            @for (int i = 0; i < 7; i++)
+    <!-- Günlük Gelirler -->
+    <div class="row g-4">
+        @for (int i = 0; i < 7; i++)
+        {
+            var revenue = Model.DailyRevenues.Count > i ? Model.DailyRevenues[i] : 0;
+            var percentage = revenue > 0 ? (revenue / Model.DailyRevenues.Max()) * 100 : 0;
+
+            var colorClass = percentage switch
             {
-                var revenue = Model.DailyRevenues.Count > i ? Model.DailyRevenues[i] : 0;
-                var percentage = revenue > 0 ? (revenue / Model.DailyRevenues.Max()) * 100 : 0;
+                <= 30 => "bg-danger",
+                <= 60 => "bg-warning",
+                _ => "bg-success"
+            };
 
-                // Renk sınıfını belirle
-                var colorClass = percentage switch
-                {
-                    <= 30 => "bg-danger",  // Kırmızı
-                    <= 60 => "bg-warning", // Sarı
-                    _ => "bg-success"      // Yeşil
-                };
-
-                <div class="progress mt-3" style="height: 33px;" role="progressbar" aria-label="Daily Revenue" aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated @colorClass" style="width: @percentage%">
-                        <b>Day @(i + 1): @revenue ₺ </b>
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Day @(i + 1)</h5>
+                        <div class="progress mb-3" style="height: 20px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated @colorClass"
+                                 style="width: @percentage%"
+                                 role="progressbar"
+                                 aria-valuenow="@percentage"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                                @percentage.ToString("0")%
+                            </div>
+                        </div>
+                        <p class="card-text text-center fw-bold">@revenue ₺</p>
                     </div>
                 </div>
-            }
-            <hr class="mt-5" />
-        </div>
-        <div class="col-md-2"></div>
+            </div>
+        }
     </div>
-    <!-- Toplam Günlük Ciro -->
-    <div class="row mt-2">
-        <div class="col-md-2"></div>
-        <div class="col-md-8 d-flex">
-            <div class="ms-auto">
-                <h5 class="ms-auto">Total Revenue: <b class="text-success">@Model.DailyRevenues.Sum() ₺</b></h5>
+
+    <!-- Toplam ve Ortalama Gelir -->
+    <div class="row mt-5">
+        <div class="col-md-6 mx-auto text-center">
+            <div class="alert alert-info shadow">
+                <h5 class="mb-2">Total Revenue: <b class="text-success">@Model.DailyRevenues.Sum() ₺</b></h5>
                 <h6>Average Daily Revenue: <b class="text-primary">@Math.Round(Model.DailyRevenues.Average(), 2) ₺</b></h6>
             </div>
         </div>
-        <div class="col-md-2"></div>
     </div>
 </div>
