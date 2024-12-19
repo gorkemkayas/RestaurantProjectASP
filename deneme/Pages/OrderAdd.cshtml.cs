@@ -118,7 +118,7 @@ namespace deneme.Pages
         private void LoadStaffList()
         {
             using var connection = new SqlConnection(_connectionString);
-            string query = "SELECT StaffId, Name, RoleId, Phone FROM dbo.STAFF";
+            string query = "SELECT StaffId, Name, RoleId, Phone FROM dbo.STAFF WHERE RoleId = 2";
             connection.Open();
 
             using var command = new SqlCommand(query, connection);

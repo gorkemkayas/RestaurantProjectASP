@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace deneme.Pages
 {
@@ -68,6 +70,7 @@ namespace deneme.Pages
         public void GetStaffInfo(string email, string password)
         {
 
+            string hashedPassword = ComputeSha256Hash(password);
 
             string query = $"SELECT StaffId, Name, RoleId, Phone, Email, Password FROM dbo.STAFF WHERE Email = @Email AND Password = @Password";
             using (var connection = new SqlConnection(_connectionString))
@@ -75,7 +78,7 @@ namespace deneme.Pages
                 connection.Open();
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@Email", email);
-                command.Parameters.AddWithValue("@Password", password);
+                command.Parameters.AddWithValue("@Password", hashedPassword);
 
 
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -90,6 +93,28 @@ namespace deneme.Pages
                         Password = reader.GetString(5);
                     }
                 }
+            }
+        }
+
+        static string ComputeSha256Hash(string input)
+        {
+            // SHA-256 nesnesini oluştur
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                // Giriş metnini byte dizisine dönüştür
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+
+                // SHA-256 hash hesapla
+                byte[] hashBytes = sha256.ComputeHash(inputBytes);
+
+                // Hash'i string formatına dönüştür (hexadecimal)
+                StringBuilder sb = new StringBuilder();
+                foreach (byte b in hashBytes)
+                {
+                    sb.Append(b.ToString("x2")); // Hexadecimal format
+                }
+
+                return sb.ToString();
             }
         }
     }
