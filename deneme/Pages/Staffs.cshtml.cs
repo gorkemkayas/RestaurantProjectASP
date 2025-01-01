@@ -26,7 +26,7 @@ namespace deneme.Pages
             {
                 connection.Open();
 
-                string query = "SELECT StaffId, Name, RoleId, Phone FROM [dbo].[STAFF]";
+                string query = "SELECT StaffId, Name, s.RoleId, RoleName, Phone, Email FROM [dbo].[STAFF] s INNER JOIN [dbo].[Role] r ON s.RoleId = r.RoleId ORDER BY RoleName";
                 SqlCommand command = new SqlCommand(query, connection);
 
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -38,7 +38,9 @@ namespace deneme.Pages
                             StaffId = reader.GetInt32(0),
                             Name = reader.GetString(1),
                             RoleId = reader.GetInt32(2),
-                            Phone = reader.GetString(1)
+                            RoleName = reader.GetString(3),
+                            Phone = reader.GetString(4),
+                            Email = reader.GetString(5),
                         });
                     }
                 }

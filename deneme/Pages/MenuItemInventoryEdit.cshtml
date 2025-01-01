@@ -1,6 +1,7 @@
 ﻿@page
 @model deneme.Pages.MenuItemInventoryEditModel
 @{
+    ViewData["Title"] = "Edit Menu Item Inventory";
 }
 
 <div class="row">
@@ -9,20 +10,39 @@
         <h2 class="text-center">Edit Menu Item Inventory</h2>
         <hr />
         <form method="post">
+            <!-- MenuItem Dropdown -->
             <div class="mb-3">
                 <label for="MenuItemId" class="form-label">Menu Item</label>
-                <input type="text" class="form-control" value="@Model.MenuItemName" readonly />
+                <select asp-for="MenuItemId" class="form-control">
+                    @foreach (var menuItem in Model.MenuItems)
+                    {
+                        <option value="@menuItem.MenuItemId" selected="@(menuItem.MenuItemId == Model.MenuItemId ? "selected" : null)">@menuItem.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="MenuItemId" class="text-danger"></span>
             </div>
+
+            <!-- InventoryItem Dropdown -->
             <div class="mb-3">
                 <label for="InventoryId" class="form-label">Inventory Item</label>
-                <input type="text" class="form-control" value="@Model.InventoryItemName" readonly />
+                <select asp-for="InventoryId" class="form-control">
+                    @foreach (var inventoryItem in Model.InventoryItems)
+                    {
+                        <option value="@inventoryItem.InventoryId" selected="@(inventoryItem.InventoryId == Model.InventoryId ? "selected" : null)">@inventoryItem.IngredientName</option>
+                    }
+                </select>
+                <span asp-validation-for="InventoryId" class="text-danger"></span>
             </div>
+
+            <!-- Required Quantity -->
             <div class="mb-3">
                 <label for="RequiredQuantity" class="form-label">Required Quantity</label>
-                <input type="number" class="form-control" id="RequiredQuantity" name="RequiredQuantity" asp-for="RequiredQuantity" />
+                <input asp-for="RequiredQuantity" type="number" class="form-control" />
+                <span asp-validation-for="RequiredQuantity" class="text-danger"></span>
             </div>
+
             <button type="submit" class="btn btn-outline-success">Save Changes</button>
-            <a href="/MenuItem" class="btn btn-dark">Cancel</a>
+            <a href="/MenuItemInventory" class="btn btn-dark">Cancel</a>
         </form>
     </div>
     <div class="col-md-2"></div>

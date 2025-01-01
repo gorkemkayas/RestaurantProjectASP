@@ -30,7 +30,7 @@
                             <td class="text-center">@menu.Description</td>
                             <td>
                                 <a asp-page="/MenuEdit" asp-route-id="@menu.MenuId" class="btn btn-dark btn-sm">Edit</a>
-                                <a asp-page="/MenuDelete" asp-route-id="@menu.MenuId" class="btn btn-outline-danger btn-sm">Delete</a>
+                                <a asp-page="/MenuDelete" asp-route-id="@menu.MenuId" asp-route-name="@menu.Name" class="btn btn-outline-danger btn-sm">Delete</a>
                             </td>
                         </tr>
                     }

@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/deneme.styles.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 ">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-area="" asp-page="/Chef/IndexChef">
+                    <i class="bi bi-alipay me-2 text-danger"></i>
+                    <em>Restaurant Management</em>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav ms-auto">
+                        @* flex-grow-1 *@
+                        @* <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Roles">Roles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Staffs">Staffs</a>
+                        </li> *@
+                        <!-- New menu items added to navbar -->
+                        @* <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Inventory">Inventory</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Menu">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/MenuItem">Menu Items</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/MenuItemInventory">Menu Item Inventory</a>
+                        </li> *@
+                        <li class="nav-item"> 
+                            <a class="nav-link"><i class="bi bi-person-fill text-danger me-2"></i>Welcome, Chef</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-area="" asp-page="/Chef/IndexChef"><i class="bi bi-house text-danger me-2"></i>Home</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-page="/Chef/TablestateChef"><i class="bi bi-check-all text-danger me-2"></i>Table States</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-page="/Chef/MenuChef"><i class="bi bi-cup-hot-fill text-danger me-2"></i>Menu</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-page="/Chef/MenuItemChef"><i class="bi bi-diagram-2 text-danger me-2"></i>Menu Items</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-page="/Chef/InventoryChef"><i class="bi bi-archive-fill text-danger me-2"></i>Inventory</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-page="/Chef/MenuItemInventoryChef"><i class="bi bi-diagram-2 text-danger me-2"></i>Menu Item Inventory</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" style="color:black" asp-page="/Login"><i class="bi bi-box-arrow-left text-danger me-2"></i>Exit</a></li>    
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; Restaurant Management System provided by Görkem, Mustafa and Salih.- <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

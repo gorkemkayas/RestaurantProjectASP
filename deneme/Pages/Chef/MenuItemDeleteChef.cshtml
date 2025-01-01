@@ -1,0 +1,46 @@
+﻿@page
+@model deneme.Pages.Chef.MenuItemDeleteChefModel
+@{
+    Layout = "_LayoutChef";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center"><i class="bi bi-trash me-2 text-danger"></i>Delete Menu Item</h2>
+        <hr />
+
+        @if (ViewData["Conflict"] != null)
+        {
+            <div class="alert alert-danger text-center" role="alert">
+                <p>@Html.Raw(@ViewData["Conflict"])</p>
+            </div>
+            <div class="d-flex">
+                <div class="ms-auto">
+
+                    <a href="/Chef/MenuItemChef" class="btn btn-dark">Cancel</a>
+                    <a href="/Chef/MenuChef" class="btn btn-outline-success">View Menus</a>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="alert alert-danger text-center" role="alert">
+                <p style="margin-bottom:0px">The Menu Item '<u>@Model.menuItemName</u>' will be deleted. <b>Are you sure?</b></p>
+            </div>
+            <div class="d-flex">
+                <div class="ms-auto">
+                    <form method="post">
+                        <input type="hidden" asp-for="menuItemId" value="@Model.menuItemId" />
+                        <a href="/Chef/MenuItemChef" class="btn btn-dark">Cancel</a>
+                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        }
+
+
+    </div>
+    <div class="col-md-2"></div>
+</div>

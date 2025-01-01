@@ -16,6 +16,7 @@
                 <thead>
                     <tr>
                         <th class="text-center">MenuItem Id</th>
+                        <th class="text-center">Menu Name</th>
                         <th class="text-center">Menu Item Name</th>
                         <th class="text-center">Description</th>
                         <th class="text-center">Price</th>
@@ -27,16 +28,18 @@
                     {
                         <tr>
                             <td class="text-center">@menuItem.MenuItemId</td>
+                            <td class="text-center">@menuItem.MenuName</td>
                             <td class="text-center">@menuItem.Name</td>
                             <td class="text-center">@menuItem.Description</td>
                             <td class="text-center">@menuItem.Price</td>
-                            <td class="text-center">
+                            <td class="text-center col-md-2">
                                 <a asp-page="/MenuItemEdit" asp-route-id="@menuItem.MenuItemId" class="btn btn-dark btn-sm">Edit</a>
-                                <a asp-page="/MenuItemDelete" asp-route-id="@menuItem.MenuItemId" class="btn btn-outline-danger btn-sm">Delete</a>
+                                <a asp-page="/MenuItemDelete" asp-route-id="@menuItem.MenuItemId" asp-route-name="@menuItem.Name" class="btn btn-outline-danger btn-sm">Delete</a>
                             </td>
                         </tr>
                     }
                     <tr>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>

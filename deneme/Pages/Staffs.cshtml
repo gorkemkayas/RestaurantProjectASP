@@ -3,19 +3,22 @@
 @{
 }
 <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
         <h2 class="text-center"><i class="bi bi-alipay me-2 text-danger small"></i>Staffs</h2>
         <hr />
 
         @if (Model.Staffs.Count > 0)
         {
-            <table class="table table-hover">
+            <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th style="width:100px" class="text-center">Staff Id</th>
-                        <th style="width:100px" class="text-center">Staff Name</th>
-                        <th style="width:99px" class="text-center">Actions</th>
+                        <th style="width:100px">Staff Id</th>
+                        <th style="width:100px">Staff Name</th>
+                        <th style="width:100px">Staff Role</th>
+                        <th style="width:100px">Staff Phone</th>
+                        <th style="width:150px">Staff Email</th>
+                        <th style="width:100px" class="ps-4" style="width:99px">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,9 +26,12 @@
                     @foreach (var staff in Model.Staffs)
                     {
                         <tr>
-                            <td class="text-center">@staff.StaffId</td>
-                            <td class="text-center">@staff.Name</td>
-                            <td class="text-center">
+                            <td>@staff.StaffId</td>
+                            <td>@staff.Name</td>
+                            <td>@staff.RoleName</td>
+                            <td>@staff.Phone</td>
+                            <td>@staff.Email</td>
+                            <td>
                                 <a asp-page="/StaffEdit" asp-route-id="@staff.StaffId" class="btn btn-dark btn-sm">Edit</a>
                                 <a asp-page="/StaffDelete" asp-route-id="@staff.StaffId" asp-route-name="@staff.Name" class="btn btn-outline-danger btn-sm">Delete</a>
                             </td>
@@ -34,7 +40,10 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <td class="text-center"><a asp-page="/StaffAdd" class="btn btn-success btn-sm" style="padding-inline:20px">New Staff</a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class=" pe-4 me-2"><a asp-page="/StaffAdd" class="btn btn-success btn-sm" style="padding-inline:20px">New Staff</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -55,5 +64,5 @@
 
 
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
 </div>

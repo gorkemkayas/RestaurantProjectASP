@@ -6,7 +6,7 @@ namespace deneme.Pages
 {
     public class MenuEditModel : PageModel
     {
-        private string? _connectionString;
+        private readonly string? _connectionString;
 
         public MenuEditModel(IConfiguration configuration)
         {
@@ -20,11 +20,12 @@ namespace deneme.Pages
         public int RestaurantId { get; set; }
 
         [BindProperty]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [BindProperty]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
+        // OnGet to load existing menu data based on MenuId
         public void OnGet(int id)
         {
             string query = "SELECT MenuId, RestaurantId, Name, Description FROM MENU WHERE MenuId = @MenuId";
@@ -40,28 +41,30 @@ namespace deneme.Pages
                         {
                             MenuId = (int)reader["MenuId"];
                             RestaurantId = (int)reader["RestaurantId"];
-                            Name = reader["Name"].ToString();
-                            Description = reader["Description"].ToString();
+                            Name = reader["Name"].ToString()!;
+                            Description = reader["Description"].ToString()!;
                         }
                     }
                 }
             }
         }
 
+        // OnPost to handle saving the menu after editing
         public IActionResult OnPost()
         {
             try
             {
                 UpdateMenuInDatabase();
-                return RedirectToPage("/Menu");
+                return RedirectToPage("/Menu");  // Redirect to the Menu list after successful save
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
-                return Page();
+                return Page();  // Return the page with error if the update fails
             }
         }
 
+        // Method to update menu data in the database
         private void UpdateMenuInDatabase()
         {
             string query = "UPDATE MENU SET RestaurantId = @RestaurantId, Name = @Name, Description = @Description WHERE MenuId = @MenuId";
@@ -75,7 +78,7 @@ namespace deneme.Pages
                     command.Parameters.AddWithValue("@RestaurantId", RestaurantId);
                     command.Parameters.AddWithValue("@Name", Name);
                     command.Parameters.AddWithValue("@Description", Description);
-                    command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();  // Execute the update query
                 }
             }
         }

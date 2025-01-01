@@ -1,4 +1,4 @@
-using deneme.Models;
+Ôªøusing deneme.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
@@ -15,7 +15,9 @@ namespace deneme.Pages
         }
 
         [BindProperty(SupportsGet = true)]
-        public int TableId { get; set; } // Query parametresini yakalamak iÁin
+        public int TableId { get; set; } // Query parametresini yakalamak i√ßin
+        [BindProperty]
+        public int orderCount { get; set; }
 
         public List<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
 
@@ -27,12 +29,22 @@ namespace deneme.Pages
             }
         }
 
-        public IActionResult OnPostDelete(int orderId)
+        public IActionResult OnPostDelete(int orderId, int TableId)
         {
             if (DeleteOrderDetail(orderId))
             {
-                // Ba˛ar˝yla silindikten sonra Tables sayfas˝na yˆnlendirme
-                return RedirectToPage("/TableState");
+                OrderDetails = GetAllOrderDetailsForTable(TableId, _connectionString);
+
+                // Sipari≈ü sayƒ±sƒ±nƒ± g√ºncelle
+                orderCount = OrderDetails.Count;
+
+                // Eƒüer orderCount 1'e d√º≈üerse ChangeTableStatus metodunu √ßalƒ±≈ütƒ±r
+                if (orderCount == 0)
+                {
+                    ChangeTableStatus(TableId, "E");
+                }
+
+                return RedirectToPage();
             }
 
             ModelState.AddModelError(string.Empty, "Failed to delete the order detail.");
@@ -86,7 +98,7 @@ namespace deneme.Pages
         {
             try
             {
-                // Revenue tablosunda toplam geliri g¸ncelle
+                // Revenue tablosunda toplam geliri g√ºncelle
                 string updateRevenueQuery = @"
         UPDATE dbo.REVENUE
         SET TotalRevenue = TotalRevenue + @GrandTotal
@@ -98,7 +110,7 @@ namespace deneme.Pages
 
                 int rowsAffected = updateCommand.ExecuteNonQuery();
 
-                // Eer mevcut bir gelir kayd˝ yoksa yeni bir kay˝t ekle
+                // E√∞er mevcut bir gelir kayd√Ω yoksa yeni bir kay√Ωt ekle
                 if (rowsAffected == 0)
                 {
                     string insertRevenueQuery = @"
@@ -107,9 +119,9 @@ namespace deneme.Pages
 
                     using var insertCommand = new SqlCommand(insertRevenueQuery, connection);
                     insertCommand.Parameters.AddWithValue("@StartDate", DateTime.Now.Date);
-                    insertCommand.Parameters.AddWithValue("@EndDate", DateTime.Now.Date.AddDays(1).AddTicks(-1)); // G¸n sonu
+                    insertCommand.Parameters.AddWithValue("@EndDate", DateTime.Now.Date.AddDays(1).AddTicks(-1)); // G√ºn sonu
                     insertCommand.Parameters.AddWithValue("@GrandTotal", grandTotal);
-                    insertCommand.Parameters.AddWithValue("@TimePeriodType", "Daily"); // ÷rnein g¸nl¸k bazda
+                    insertCommand.Parameters.AddWithValue("@TimePeriodType", "Daily"); // √ñrne√∞in g√ºnl√ºk bazda
 
                     insertCommand.ExecuteNonQuery();
                 }
@@ -120,6 +132,7 @@ namespace deneme.Pages
             }
         }
 
+
         public IActionResult OnPostPayment(string paymentMethod)
         {
             try
@@ -127,8 +140,14 @@ namespace deneme.Pages
                 using var connection = new SqlConnection(_connectionString);
                 connection.Open();
 
-                // Tabloya ait t¸m sipari˛leri al
-                string query = "SELECT OrderId, SUM(Quantity * Price) AS TotalAmount FROM dbo.ORDERDETAILS WHERE TableId = @TableId GROUP BY OrderId";
+                // Tabloya ait sadece "Pending" durumundaki sipari√æleri al
+                string query = @"
+        SELECT o.OrderId, SUM(od.Quantity * od.Price) AS TotalAmount
+        FROM dbo.ORDERDETAILS od
+        INNER JOIN dbo.[ORDER] o ON od.OrderId = o.OrderId
+        WHERE od.TableId = @TableId AND o.OrderStatus = 'Pending'
+        GROUP BY o.OrderId";
+
                 var orders = new List<(int OrderId, float TotalAmount)>();
 
                 using (var command = new SqlCommand(query, connection))
@@ -142,10 +161,10 @@ namespace deneme.Pages
                     }
                 }
 
-                // Toplam tutar˝ hesapla
+                // Toplam tutar√Ω hesapla
                 var grandTotal = orders.Sum(order => order.TotalAmount);
 
-                // Payment kayd˝ ekle
+                // Payment kayd√Ω ekle
                 string paymentQuery = @"
         INSERT INTO dbo.PAYMENT (OrderId, PaymentDate, Amount, PaymentMethod)
         VALUES (@OrderId, @PaymentDate, @Amount, @PaymentMethod)";
@@ -161,10 +180,21 @@ namespace deneme.Pages
                     paymentCommand.ExecuteNonQuery();
                 }
 
-                // Revenue tablosunu g¸ncelle
+                // Sipari√ælerin durumunu "Completed" olarak g√ºncelle
+                string updateOrderStatusQuery = "UPDATE dbo.[ORDER] SET OrderStatus = 'Completed' WHERE OrderId = @OrderId";
+
+                foreach (var order in orders)
+                {
+                    using var updateCommand = new SqlCommand(updateOrderStatusQuery, connection);
+                    updateCommand.Parameters.AddWithValue("@OrderId", order.OrderId);
+                    updateCommand.ExecuteNonQuery();
+                }
+
+                // Revenue tablosunu g√ºncelle
                 UpdateRevenue(grandTotal, connection);
 
                 TempData["SuccessMessage"] = $"Payment of {grandTotal:C} for Table {TableId} using {paymentMethod} has been successfully processed.";
+                ChangeTableStatus(TableId,"E");
                 return RedirectToPage("/TableState");
             }
             catch (Exception ex)
@@ -178,6 +208,23 @@ namespace deneme.Pages
 
 
 
+        public void ChangeTableStatus(int tableId, string status)
+        {
+            string query = "UPDATE dbo.TABLES SET Status = @Status WHERE TableId = @TableId";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@TableId", tableId);
+                    command.Parameters.AddWithValue("@Status", status);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
 
 
 
@@ -189,12 +236,12 @@ namespace deneme.Pages
                 {
                     connection.Open();
 
-                    // Transaction kullanarak ORDERDETAILS ve ORDER tablosundaki silme i˛lemini g¸vence alt˝na al˝yoruz.
+                    // Transaction kullanarak ORDERDETAILS ve ORDER tablosundaki silme i√ælemini g√ºvence alt√Ωna al√Ωyoruz.
                     using (var transaction = connection.BeginTransaction())
                     {
                         try
                         {
-                            // 1. ORDERDETAILS tablosundaki kayd˝ sil
+                            // 1. ORDERDETAILS tablosundaki kayd√Ω sil
                             string deleteOrderDetailsQuery = "DELETE FROM dbo.ORDERDETAILS WHERE OrderId = @OrderId";
                             using (var deleteOrderDetailsCommand = new SqlCommand(deleteOrderDetailsQuery, connection, transaction))
                             {
@@ -202,14 +249,14 @@ namespace deneme.Pages
                                 deleteOrderDetailsCommand.ExecuteNonQuery();
                             }
 
-                            // 2. ORDERDETAILS tablosunda, o OrderId'ye bal˝ ba˛ka kay˝t olup olmad˝˝n˝ kontrol et
+                            // 2. ORDERDETAILS tablosunda, o OrderId'ye ba√∞l√Ω ba√æka kay√Ωt olup olmad√Ω√∞√Ωn√Ω kontrol et
                             string checkOrderDetailsQuery = "SELECT COUNT(*) FROM dbo.ORDERDETAILS WHERE OrderId = @OrderId";
                             using (var checkOrderDetailsCommand = new SqlCommand(checkOrderDetailsQuery, connection, transaction))
                             {
                                 checkOrderDetailsCommand.Parameters.AddWithValue("@OrderId", orderId);
                                 int count = (int)checkOrderDetailsCommand.ExecuteScalar();
 
-                                // Eer ba˛ka OrderDetail kayd˝ yoksa, ORDER kayd˝n˝ da sil
+                                // E√∞er ba√æka OrderDetail kayd√Ω yoksa, ORDER kayd√Ωn√Ω da sil
                                 if (count == 0)
                                 {
                                     string deleteOrderQuery = "DELETE FROM dbo.[ORDER] WHERE OrderId = @OrderId";
@@ -221,13 +268,13 @@ namespace deneme.Pages
                                 }
                             }
 
-                            // ›˛lemleri ba˛ar˝l˝ bir ˛ekilde tamamla
+                            // √ù√ælemleri ba√æar√Ωl√Ω bir √æekilde tamamla
                             transaction.Commit();
                             return true;
                         }
                         catch (Exception)
                         {
-                            // Hata durumunda i˛lemi geri al
+                            // Hata durumunda i√ælemi geri al
                             transaction.Rollback();
                             throw;
                         }

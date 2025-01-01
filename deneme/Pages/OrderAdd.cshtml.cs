@@ -29,6 +29,9 @@ namespace deneme.Pages
         public List<MenuItem> MenuItems { get; set; } = new();
         public List<Staff> StaffList { get; set; } = new(); // Staff listesi
 
+        [BindProperty]
+        public string MenuName { get; set; }
+
         public void OnGet(int tableId)
         {
             TableId = tableId;
@@ -48,7 +51,17 @@ namespace deneme.Pages
 
             if (SaveOrderAndDetails())
             {
-                return RedirectToPage("/Orders", new { TableId });
+                try
+                {
+                    ChangeTableStatus(TableId, "F");
+                    return RedirectToPage("/Orders", new { TableId });
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+                
             }
 
             ModelState.AddModelError(string.Empty, "Failed to save the order.");
@@ -57,10 +70,32 @@ namespace deneme.Pages
             return Page();
         }
 
+        public void ChangeTableStatus(int tableId, string status)
+        {
+            string query = "UPDATE dbo.TABLES SET Status = @Status WHERE TableId = @TableId";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@TableId", tableId);
+                    command.Parameters.AddWithValue("@Status", status);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         private void LoadMenuItems()
         {
             using var connection = new SqlConnection(_connectionString);
-            string query = "SELECT MenuItemId, Name, Price FROM dbo.MENUITEM";
+            string query = @"
+        SELECT MI.MenuItemId, MI.Name AS MenuItemName, MI.Price, MI.MenuId, M.Name AS MenuName
+        FROM dbo.MENUITEM MI
+        JOIN dbo.MENU M ON MI.MenuId = M.MenuId";
+
             connection.Open();
 
             using var command = new SqlCommand(query, connection);
@@ -71,16 +106,19 @@ namespace deneme.Pages
                 MenuItems.Add(new MenuItem
                 {
                     MenuItemId = reader.GetInt32(0),
-                    Name = reader.GetString(1),
-                    Price = (float)reader.GetDouble(2)
+                    Name = reader.GetString(1), // MenuItem.Name
+                    Price = (float)reader.GetDouble(2),
+                    MenuId = reader.GetInt32(3),
+                    MenuName = reader.GetString(4) // Menu.Name
                 });
             }
         }
 
+
         private void LoadStaffList()
         {
             using var connection = new SqlConnection(_connectionString);
-            string query = "SELECT StaffId, Name, RoleId, Phone FROM dbo.STAFF";
+            string query = "SELECT StaffId, Name, RoleId, Phone FROM dbo.STAFF WHERE RoleId = 2";
             connection.Open();
 
             using var command = new SqlCommand(query, connection);

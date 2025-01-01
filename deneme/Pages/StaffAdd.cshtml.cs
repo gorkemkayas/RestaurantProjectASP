@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
+using System.ComponentModel;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace deneme.Pages
 {
@@ -25,6 +28,13 @@ namespace deneme.Pages
         [BindProperty]
         public string Phone { get; set; } = null!;
 
+        [BindProperty]
+        
+        public string Email { get; set; } = null!;
+
+        [BindProperty]
+        public string Password { get; set; } = null!;
+
         public List<Role> AllRoles { get; set; } = new List<Role>();
 
         [BindProperty]
@@ -44,7 +54,7 @@ namespace deneme.Pages
 
         public IActionResult OnPost()
         {
-            AddStaffToDatabase(Name, RoleId,Phone);
+            AddStaffToDatabase(Name, RoleId,Phone,Email,Password);
             return RedirectToPage("/Staffs");
         }
 
@@ -72,12 +82,13 @@ namespace deneme.Pages
             }
             return roles;
         }
-        private void AddStaffToDatabase(string staffName,int roleId, string staffPhone)
+        private void AddStaffToDatabase(string staffName,int roleId, string staffPhone, string email, string password)
         {
 
-            string query = $"INSERT INTO STAFF (Name,RoleId,Phone) VALUES (@StaffName,@StaffRoleId,@StaffPhone)";
+            string query = $"INSERT INTO STAFF (Name,RoleId,Phone,Email,Password) VALUES (@StaffName,@StaffRoleId,@StaffPhone,@StaffEmail,@StaffPassword)";
             using (var connection = new SqlConnection(_connectionString))
             {
+                string hashedPassword = ComputeSha256Hash(password);
                 try
                 {
                     connection.Open();
@@ -86,6 +97,8 @@ namespace deneme.Pages
                         command.Parameters.AddWithValue("@StaffName", staffName);
                         command.Parameters.AddWithValue("@StaffRoleId", roleId);
                         command.Parameters.AddWithValue("@StaffPhone", staffPhone);
+                        command.Parameters.AddWithValue("@StaffEmail", email);
+                        command.Parameters.AddWithValue("@StaffPassword", hashedPassword);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -94,6 +107,28 @@ namespace deneme.Pages
 
                     throw new Exception("AddRole metodunda hata oluştu.");
                 }
+            }
+        }
+
+        static string ComputeSha256Hash(string input)
+        {
+            // SHA-256 nesnesini oluştur
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                // Giriş metnini byte dizisine dönüştür
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+
+                // SHA-256 hash hesapla
+                byte[] hashBytes = sha256.ComputeHash(inputBytes);
+
+                // Hash'i string formatına dönüştür (hexadecimal)
+                StringBuilder sb = new StringBuilder();
+                foreach (byte b in hashBytes)
+                {
+                    sb.Append(b.ToString("x2")); // Hexadecimal format
+                }
+
+                return sb.ToString();
             }
         }
     }

@@ -1,0 +1,59 @@
+﻿@page
+@model deneme.Pages.Chef.MenuItemChefModel
+@{
+    ViewData["Title"] = "Menu Items Management";
+    Layout = "_LayoutChef";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center"><i class="bi bi-alipay me-2 text-danger small"></i>Menu Items</h2>
+        <hr />
+
+        @if (Model.MenuItems.Count > 0)
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">MenuItem Id</th>
+                        <th class="text-center">Menu Item Name</th>
+                        <th class="text-center">Description</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var menuItem in Model.MenuItems)
+                    {
+                        <tr>
+                            <td class="text-center">@menuItem.MenuItemId</td>
+                            <td class="text-center">@menuItem.Name</td>
+                            <td class="text-center">@menuItem.Description</td>
+                            <td class="text-center">@menuItem.Price</td>
+                            <td class="text-center">
+                                <a asp-page="/Chef/MenuItemEditChef" asp-route-id="@menuItem.MenuItemId" class="btn btn-dark btn-sm">Edit</a>
+                                <a asp-page="/Chef/MenuItemDeleteChef" asp-route-id="@menuItem.MenuItemId" asp-route-name="@menuItem.Name" class="btn btn-outline-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a asp-page="/Chef/MenuItemAddChef" class="btn btn-success btn-sm">New Menu Item</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center" role="alert">
+                No menu items found. Do you want to add a new item?
+            </div>
+            <a href="/Index" class="btn btn-dark btn-sm">Cancel</a>
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>

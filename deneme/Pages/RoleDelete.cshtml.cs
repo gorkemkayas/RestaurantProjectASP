@@ -24,9 +24,17 @@ namespace deneme.Pages
         }
 
         public IActionResult OnPost(int RoleId) {
-
+            try
+            {
             DeleteRoleToDatabase(RoleId);
             return RedirectToPage("/Roles");
+
+            }
+            catch (Exception)
+            {
+                ViewData["ConflictMessage"] = "We cannot perform this operation because <b>there are employees associated with the role</b> information you want to delete.\n <b> To perform the deletion operation, delete the employees associated with the role.</b>";
+                return Page();
+            }
         }
         private void DeleteRoleToDatabase(int RoleId)
         {

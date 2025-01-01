@@ -1,0 +1,90 @@
+@page "{tableId:int}"
+@model deneme.Pages.Waiter.OrderAddWaiterModel
+@{
+    ViewData["Title"] = "Add Order";
+    Layout = "_LayoutWaiter";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">
+        <i class="bi bi-receipt-cutoff me-2 text-danger small"></i>
+        Add Order for Table @Model.TableId
+    </h2>
+
+    <!-- Hata mesajlarý -->
+    @if (!ViewData.ModelState.IsValid)
+    {
+    <div class="alert alert-danger">
+        <strong>Error:</strong>
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+        <p>@error.ErrorMessage</p>
+            }
+    </div>
+    }
+
+    <!-- Sipariþ formu -->
+    <form method="post" class="needs-validation" novalidate>
+        <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+
+        <!-- Staff seçimi -->
+        <div class="mb-4">
+            <label for="StaffId" class="form-label">Select Staff:</label>
+            <select id="StaffId" name="StaffId" class="form-select" required>
+                <option value="" disabled selected>Choose a staff...</option>
+                @foreach (var staff in Model.StaffList)
+                {
+                <option value="@staff.StaffId">@staff.Name</option>
+                }
+            </select>
+        </div>
+
+        <!-- Menü ve sipariþ detaylarý -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Menu</th>
+                        <th scope="col">Menu Item</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.MenuItems.Count; i++)
+                    {
+                        var menuItem = Model.MenuItems[i];
+                    <tr>
+                        <td>@menuItem.MenuName</td>
+                        <td>@menuItem.Name</td>
+                        <td>@menuItem.Price.ToString("C")</td>
+                        <td>
+                            <div class="input-group">
+                                <input type="number"
+                                       name="OrderDetails[@i].Quantity"
+                                       min="0"
+                                       value="0"
+                                       class="form-control"
+                                       placeholder="0" />
+                                <input type="hidden"
+                                       name="OrderDetails[@i].MenuItemId"
+                                       value="@menuItem.MenuItemId" />
+                                <input type="hidden"
+                                       name="OrderDetails[@i].Price"
+                                       value="@menuItem.Price" />
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Butonlar -->
+        <div class="d-flex justify-content-end gap-3 mt-4">
+            <button type="submit" class="btn btn-primary px-4">Save Order</button>
+            <a asp-page="/Waiter/OrdersWaiter" asp-route-tableId="@Model.TableId" class="btn btn-success px-4">See Orders</a>
+            <a asp-page="/Waiter/TableState" class="btn btn-secondary px-4">Cancel</a>
+        </div>
+    </form>
+</div>

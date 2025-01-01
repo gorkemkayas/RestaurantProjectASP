@@ -1,8 +1,10 @@
+using deneme.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 
 namespace deneme.Pages
 {
@@ -29,6 +31,9 @@ namespace deneme.Pages
         public string MenuItemName { get; set; }
         public string InventoryItemName { get; set; }
 
+        public List<MenuItem> MenuItems { get; set; }
+        public List<Inventory> InventoryItems { get; set; }
+
         public IActionResult OnGet(int menuItemId, int inventoryId)
         {
             // Fetch the MenuItemInventory by MenuItemId and InventoryId
@@ -47,15 +52,20 @@ namespace deneme.Pages
             MenuItemName = GetMenuItemNameById(MenuItemId);
             InventoryItemName = GetInventoryItemNameById(InventoryId);
 
+            // Fetch lists for dropdown
+            MenuItems = GetAllMenuItems();
+            InventoryItems = GetAllInventoryItems();
+
             return Page();
         }
+
         public IActionResult OnPost()
         {
             try
             {
                 // Update the MenuItemInventory with the new values
                 UpdateMenuItemInventory(MenuItemId, InventoryId, RequiredQuantity);
-                return RedirectToPage("/MenuItems"); // Redirect back to MenuItems page
+                return RedirectToPage("/MenuItemInventory"); // Redirect back to MenuItems page
             }
             catch (Exception)
             {
@@ -140,6 +150,52 @@ namespace deneme.Pages
                     return result?.ToString() ?? string.Empty;
                 }
             }
+        }
+
+        private List<MenuItem> GetAllMenuItems()
+        {
+            List<MenuItem> items = new List<MenuItem>();
+            string query = "SELECT MenuItemId, Name FROM dbo.MENUITEM";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        items.Add(new MenuItem
+                        {
+                            MenuItemId = reader.GetInt32(0),
+                            Name = reader.GetString(1)
+                        });
+                    }
+                }
+            }
+            return items;
+        }
+
+        private List<Inventory> GetAllInventoryItems()
+        {
+            List<Inventory> items = new List<Inventory>();
+            string query = "SELECT InventoryId, IngredientName FROM dbo.INVENTORY";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        items.Add(new Inventory
+                        {
+                            InventoryId = reader.GetInt32(0),
+                            IngredientName = reader.GetString(1)
+                        });
+                    }
+                }
+            }
+            return items;
         }
     }
 }
