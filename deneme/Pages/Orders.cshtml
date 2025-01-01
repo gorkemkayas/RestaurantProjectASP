@@ -32,7 +32,7 @@
                     <td>@detail.Price.ToString("C")</td>
                     <td>@(detail.Quantity * detail.Price)</td>
                     <td>
-                        <form method="post" asp-page-handler="Delete" asp-route-orderId="@detail.OrderId"
+                        <form method="post" asp-page-handler="Delete" asp-route-orderId="@detail.OrderId" asp-route-TableId=@detail.TableId
                               onsubmit="return confirm('Are you sure you want to delete this order?');">
                             <button type="submit" class="btn btn-danger btn-sm">
                                 <i class="bi bi-trash"></i> Delete

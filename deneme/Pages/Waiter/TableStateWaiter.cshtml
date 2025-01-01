@@ -1,100 +1,103 @@
 ﻿@page
-@model deneme.Pages.Waiter.TableStateWaiterModel
+@model deneme.Pages.TableStateModel
 @{
     ViewData["Title"] = "Table States";
     Layout = "_LayoutWaiter";
 }
+
 <div class="row">
     <h4 class="text-center"><i class="bi bi-alipay me-2 text-danger small"></i>Table States</h4>
     <hr />
 </div>
 <div class="container text-center mb-5">
     <div class="row row-cols-6">
-        <div class="col btn btn-danger d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/1'">
-            <i class="bi bi bi-cup-hot fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn d-flex flex-column justify-content-center align-items-center m-2 @(Model.TableStatuses[1] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/1'">
+            <i class="bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[1] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 1</small>
+
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/2'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2 @(Model.TableStatuses[2] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/2'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[2] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 2</small>
+
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/3'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2 @(Model.TableStatuses[3] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/3'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[3] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 3</small>
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/4'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[4] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/4'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[4] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 4</small>
         </div>
-        <div class="col btn btn-danger d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/5'">
-            <i class="bi bi bi-cup-hot fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[5] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/5'">
+            <i class="bi bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[5] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 5</small>
         </div>
 
         <div class="" style="width:100px; height:80px"></div> @* blok arası boşluk *@
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/11'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2 @(Model.TableStatuses[11] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/11'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[11] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 11</small>
         </div>
-        <div class="col btn btn-danger d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/12'">
-            <i class="bi bi bi-cup-hot fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[12] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/12'">
+            <i class="bi bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[12] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 12</small>
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/13'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[13] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/13'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[13] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 13</small>
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/14'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[14] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/14'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[14] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 14</small>
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/15'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[15] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/15'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[15] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 15</small>
         </div>
 
     </div>
     <div class="row row-cols-6">
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/6'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[6] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/6'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[6] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 6</small>
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/7'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[7] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/7'">
+            <i class="bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[7] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 7</small>
         </div>
-        <div class="col btn btn-danger d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/8'">
-            <i class="bi bi bi-cup-hot fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[8] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/8'">
+            <i class="bi bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[8] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 8</small>
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/9'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[9] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/9'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[9] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 9</small>
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/10'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[10] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/10'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[10] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 10</small>
         </div>
 
         <div class="" style="width:100px; height:80px"></div> @* blok arası boşluk *@
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/16'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[16] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/16'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[16] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 16</small>
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/17'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[17] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/17'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[17] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 17</small>
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/18'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[18] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/18'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[18] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 18</small>
         </div>
-        <div class="col btn btn-danger d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/19'">
-            <i class="bi bi bi-cup-hot fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[19] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/19'">
+            <i class="bi bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[19] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 19</small>
         </div>
-        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/20'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col btn btn-success d-flex flex-column justify-content-center align-items-center m-2 @(Model.TableStatuses[20] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/20'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[20] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 20</small>
         </div>
     </div>
@@ -110,57 +113,57 @@
 
     <div class="row">
         <div class="" style="padding-inline-end:130px"><i class="bi bi-caret-down text-danger me-2"></i><b>Inner left</b></div>
-        <div class="col-6 col-sm-3 btn btn-danger d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/21'">
-            <i class="bi bi-cup-hot fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn  d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[21] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/21'">
+            <i class="bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[21] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 21</small>
         </div>
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/22'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn  d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[22] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/22'">
+            <i class="bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[22] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 22</small>
         </div>
 
         <!-- Force next columns to break to new line -->
         <div class="w-100"></div>
 
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/23'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2 @(Model.TableStatuses[23] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/23'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[23] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 23</small>
         </div>
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/24'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[24] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/24'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[24] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 24</small>
         </div>
         <!-- Force next columns to break to new line -->
         <div class="w-100"></div>
 
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/25'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[25] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/25'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[25] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 25</small>
         </div>
-        <div class="col-6 col-sm-3 btn btn-danger d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/26'">
-            <i class="bi bi-cup-hot fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[26] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/26'">
+            <i class="bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[26] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 26</small>
         </div>
-                <!-- Force next columns to break to new line -->
+        <!-- Force next columns to break to new line -->
         <div class="w-100"></div>
 
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/27'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2 @(Model.TableStatuses[27] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/27'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[27] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 27</small>
         </div>
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/28'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[28] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/28'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[28] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 28</small>
         </div>
         <!-- Force next columns to break to new line -->
         <div class="w-100"></div>
 
-        <div class="col-6 col-sm-3 btn btn-danger d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/29'">
-            <i class="bi bi-cup-hot fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[29] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/29'">
+            <i class="bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[29] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 29</small>
         </div>
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/30'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2 @(Model.TableStatuses[30] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/30'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[30] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 30</small>
         </div>
     </div>
@@ -173,57 +176,57 @@
 
     <div class="row justify-content-end me-4">
         <div class="" style="padding-inline-start:120px"><i class="bi bi-caret-down text-danger me-2"></i><b>Inner right</b></div>
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/31'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[31] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/31'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[31] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 31</small>
         </div>
-        <div class="col-6 col-sm-3 btn btn-danger d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/32'">
-            <i class="bi bi-cup-hot fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[32] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/32'">
+            <i class="bi  fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[32] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 32</small>
         </div>
 
         <!-- Force next columns to break to new line -->
         <div class="w-100"></div>
 
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/33'">
-            <i class="bi bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[33] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/33'">
+            <i class="bi bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[33] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 33</small>
         </div>
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/34'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[34] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/34'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[34] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 34</small>
         </div>
         <!-- Force next columns to break to new line -->
         <div class="w-100"></div>
 
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/35'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[35] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/35'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[35] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 35</small>
         </div>
-        <div class="col-6 col-sm-3 btn btn-danger d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/36'">
-            <i class="bi bi-cup-hot fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[36] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/36'">
+            <i class="bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[36] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 36</small>
         </div>
         <!-- Force next columns to break to new line -->
         <div class="w-100"></div>
 
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/37'">
-            <i class="bi bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[37] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/37'">
+            <i class="bi bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[37] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 37</small>
         </div>
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/38'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[38] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/38'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[38] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 38</small>
         </div>
         <!-- Force next columns to break to new line -->
         <div class="w-100"></div>
 
-        <div class="col-6 col-sm-3 btn btn-danger d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/39'">
-            <i class="bi bi bi-cup-hot fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[39] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/39'">
+            <i class="bi fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[39] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 39</small>
         </div>
-        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/40'">
-            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto" style="height:70px"></i>
+        <div class="col-6 col-sm-3 btn btn-success d-flex flex-column justify-content-center align-items-center m-2  @(Model.TableStatuses[40] == "E" ? "btn-success" : "btn-danger")" style="width:100px; height:80px" onclick="location.href='/Waiter/OrderAddWaiter/40'">
+            <i class="bi bi-cup-fill fs-3 align-content-center my-auto mx-auto bi-@(Model.TableStatuses[40] == "E" ? "cup-fill" : "cup-hot")" style="height:70px"></i>
             <small class="text-light"> Table 40</small>
         </div>
     </div>
