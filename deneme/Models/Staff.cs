@@ -12,6 +12,8 @@ namespace deneme.Models
         [Required]
         public int RoleId { get; set; }
 
+        public string RoleName { get; set; }
+
         [Required]
         public string Phone { get; set; } = null!;
 
