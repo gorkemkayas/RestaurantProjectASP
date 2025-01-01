@@ -44,7 +44,7 @@ namespace deneme.Pages
                     ChangeTableStatus(TableId, "E");
                 }
 
-                return RedirectToPage();
+                return RedirectToPage("/TableState");
             }
 
             ModelState.AddModelError(string.Empty, "Failed to delete the order detail.");
